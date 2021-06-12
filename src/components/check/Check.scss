@@ -1,0 +1,43 @@
+.dz-check-back {
+  position: fixed;
+  z-index: 99999;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dz-check-cnt {
+  width: 92%;
+  background-color: white;
+  border-radius: 24px;
+  overflow: hidden;
+
+  .text {
+    padding: 50px;
+  }
+
+  .btn {
+    border-radius: 0;
+    border: none;
+  }
+
+  .btn::after {
+    content: " ";
+    border-radius: 0;
+    position: absolute;
+    z-index: 95;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+    width: 200%;
+    height: 200%;
+    border-top: 1px solid #dddddd;
+    transform: scale(.5);
+    transform-origin: 0 0;
+  }
+}

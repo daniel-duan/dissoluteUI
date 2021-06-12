@@ -1,0 +1,68 @@
+/*页面初始化加载loading===begin*/
+.dz-loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.1);
+  z-index: 6600;
+}
+
+.dz-loading-img {
+  position: absolute;
+  display: block;
+  height: 200px;
+  width: 200px;
+}
+
+.dz-loading-box {
+  position: relative;
+  top: -40px;
+  height: 200px;
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+.dz-loading-dot {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  animation: dz-loading-slide 1.5s infinite;
+}
+
+.dz-loading-dot:nth-child(1) {
+  background: rgba(255, 0, 0, 0.5);
+}
+
+.dz-loading-dot:nth-child(2) {
+  animation-delay: 500ms;
+  background: rgba(255, 255, 0, 0.5);
+}
+
+.dz-loading-dot:nth-child(3) {
+  animation-delay: 1s;
+  background: rgba(0, 0, 255, 0.5);
+}
+
+@keyframes dz-loading-slide {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/*页面初始化加载loading===end*/

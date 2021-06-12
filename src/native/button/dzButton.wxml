@@ -1,0 +1,13 @@
+<button class="dz-ripper dz-button"
+        capture-bind:tap="_tap"
+        capture-bind:longpress="_longPress"
+        capture-bind:touchend="_touchEnd"
+        style="height:{{type === 'blur' ? '100%' : '46px'}}; background-color:{{type === 'blur' ? 'transparent' : 'red'}};">
+    <slot></slot>
+    <view wx:for="{{rippleList}}"
+          wx:key="rippleId"
+          style="width:{{item.width}}px; height:{{item.height}}px; left:{{item.left}}px; top:{{item.top}}px; background-color:rgb(255, 255, 255)"
+          class="dz-ripple {{item.startAnimate ? item.holdAnimate ? 'dz-rippleB-animation-slow-hold' :'dz-rippleB-animation-slow' : ''}}"
+          bind:animationend="{{item.holdAnimate ? null : '_rippleAnimationEnd'}}">
+    </view>
+</button>

@@ -1,0 +1,14 @@
+<view class="dz-ripper dz-paper {{border ? 'dz-paper-border' : ''}}"
+      capture-bind:tap="_tap"
+      capture-bind:longpress="_longPress"
+      capture-bind:touchend="_touchEnd"
+      hover-class="none"
+      catchtap="_tapHandle">
+    <slot></slot>
+    <view wx:for="{{rippleList}}"
+          wx:key="rippleId"
+          style="width:{{item.width}}px; height:{{item.height}}px; left:{{item.left}}px; top:{{item.top}}px; background-color:rgba(243,218,92,1)"
+          class="dz-ripple {{item.startAnimate ? item.holdAnimate ? 'dz-rippleP-animation-slow-hold' :'dz-rippleP-animation-slow' : ''}}"
+          bind:animationend="{{item.holdAnimate ? null : '_rippleAnimationEnd'}}">
+    </view>
+</view>
