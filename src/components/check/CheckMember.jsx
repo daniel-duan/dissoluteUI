@@ -44,7 +44,7 @@ export default class CheckMember extends React.Component {
     getUserInfo() {
         const that = this;
         wx.getUserProfile({
-            desc: '福缘善需要完善您的会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+            desc: '领跑体育需要完善您的会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
             success: (res) => {
                 that.register(res.userInfo);
             }
@@ -71,14 +71,13 @@ export default class CheckMember extends React.Component {
 
     render() {
         if (this.state.status === 1) return null;
-        if (this.state.status === 2) return <DzLoading/>;
+        if (this.state.status === 2) return <DzLoading open={true}/>;
 
         return (
-            <View className='dz-check-back'>
-                <View className='dz-check-cnt'>
-                    <View className='text'>您还不是会员，点击加入禅福缘，成为我们的尊贵会员。</View>
-                    <View className='bn-service-law' onClick={() => Taro.navigateTo({url: '/pages/policy/policy'})}>点击查看福缘善服务协议、用户隐私政策及免责说明</View>
-                    <Button className='btn' openType='getUserInfo' onClick={this.getUserInfo}>加入禅福缘</Button>
+            <View className='dz-checking'>
+                <View className='check-cnt'>
+                    <View className='text'>您还不是会员，点击加入领跑体育，成为我们的尊贵会员。</View>
+                    <Button className='btn' openType='getUserInfo' onClick={this.getUserInfo}>加入领跑体育</Button>
                 </View>
             </View>
         )

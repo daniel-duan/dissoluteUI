@@ -1,0 +1,13 @@
+.bs-bottom-border::after {
+  content: " ";
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  width: 200%;
+  height: 200%;
+  border-bottom: 1px solid #dddddd;
+  transform: scale(.5);
+  transform-origin: 0 0;
+}

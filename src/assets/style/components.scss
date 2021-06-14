@@ -1,0 +1,269 @@
+.dz-scroll {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.dz-scroll-cnt {
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.dz-top-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    box-sizing: border-box;
+    background-color: white;
+
+    .nav-title {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: black;
+    }
+
+    .nav-btn {
+        position: absolute;
+        z-index: 99;
+        left: 15px;
+        width: 142px;
+        background-color: rgba(255, 255, 255, 0.6);
+        display: flex;
+
+        &::before {
+            content: ' ';
+            position: absolute;
+            height: 60%;
+            width: 1px;
+            background-color: #555555;
+            top: 20%;
+            left: 50%;
+        }
+
+        &::after {
+            content: " ";
+            position: absolute;
+            border: 1px solid #eeeeee;
+            z-index: -1;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 200%;
+            border-radius: inherit;
+            transform: scale(.5);
+            transform-origin: 0 0;
+        }
+    }
+
+    .top-button {
+        flex: 1;
+        background-color: transparent;
+        line-height: 1.8;
+        padding: 0;
+
+        &::after {
+            border: none;
+        }
+
+        &:active {
+            opacity: 0.4;
+        }
+    }
+}
+
+.dz-scroll-load {
+    position: relative;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+    .sl-dot {
+        position: relative;
+        width: 30px;
+        height: 30px;
+        border-radius: 100%;
+        animation: dz-slide 1s infinite;
+
+        &:nth-child(1) {
+            left: -10px;
+            animation-delay: 0.1s;
+            background: #64aacc;
+        }
+
+        &:nth-child(2) {
+            animation-delay: 0.2s;
+            background: #96aacc;
+        }
+
+        &:nth-child(3) {
+            left: 10px;
+            animation-delay: 0.3s;
+            background: #c8aacc;
+        }
+    }
+
+
+    .load-text {
+        position: relative;
+        font-size: 28px;
+        box-sizing: border-box;
+        height: 60px;
+        line-height: 60px;
+        color: #bbbbbb;
+
+        ::before {
+            content: " ";
+            position: absolute;
+            left: -160px;
+            top: 30px;
+            width: 240px;
+            border-bottom: 1px solid #bbbbbb;
+            transform: scale(.5);
+            transform-origin: 0 0;
+        }
+
+        ::after {
+            content: " ";
+            position: absolute;
+            right: -280px;
+            top: 30px;
+            width: 240px;
+            border-bottom: 1px solid #bbbbbb;
+            transform: scale(.5);
+            transform-origin: 0 0;
+        }
+    }
+}
+
+.dz-loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 6600;
+
+    .loading-box {
+        position: relative;
+
+        &::before {
+            position: absolute;
+            content: "LING PAO";
+            font-size: 30px;
+            width: 100%;
+            text-align: center;
+            opacity: 0.6;
+        }
+    }
+
+    .loading-dot {
+        width: 40px;
+        height: 40px;
+        background: #3ac;
+        border-radius: 100%;
+        display: inline-block;
+        animation: slide 1s infinite;
+
+        &:nth-child(1) {
+            animation-delay: 0.1s;
+            background: #32aacc;
+        }
+
+        &:nth-child(2) {
+            animation-delay: 0.2s;
+            background: #64aacc;
+        }
+
+        &:nth-child(3) {
+            animation-delay: 0.3s;
+            background: #96aacc;
+        }
+
+        &:nth-child(4) {
+            animation-delay: 0.4s;
+            background: #c8aacc;
+        }
+
+        &:nth-child(5) {
+            animation-delay: 0.5s;
+            background: #faaacc;
+        }
+    }
+}
+
+@keyframes slide {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.3;
+        transform: scale(2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.dz-checking {
+    position: fixed;
+    z-index: 99999;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .check-cnt {
+        width: 92%;
+        background-color: white;
+        border-radius: 24px;
+        overflow: hidden;
+
+        .text {
+            padding: 50px;
+        }
+
+        .btn {
+            border-radius: 0;
+            border: none;
+
+            &::after {
+                content: " ";
+                border-radius: 0;
+                position: absolute;
+                z-index: 95;
+                top: 0;
+                left: 0;
+                box-sizing: border-box;
+                width: 200%;
+                height: 200%;
+                border-top: 1px solid #dddddd;
+                transform: scale(.5);
+                transform-origin: 0 0;
+            }
+        }
+    }
+}
+
+
