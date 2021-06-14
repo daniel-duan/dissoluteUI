@@ -39,7 +39,7 @@ export default class TopBar extends React.Component {
 TopBar.defaultProps = {
     nav: true,
     title: '',
-    bottomBorder: true
+    bottomBorder: false
 };
 
 TopBar.propTypes = {

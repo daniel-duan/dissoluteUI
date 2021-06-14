@@ -9,9 +9,7 @@ export function memGet(key) {
 
 export function cacheMem(mem) {
     if (mem !== null) {
-        if (mem.memId !== null) {
-            member.set('memId', mem.memId);
-        }
+        member.set('memId', mem.memId);
         member.set('memType', mem.memType);
         member.set('integral', mem.integral);
         member.set('openId', mem.openId);

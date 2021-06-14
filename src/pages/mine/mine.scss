@@ -71,6 +71,23 @@
     }
 }
 
+.dz-vip-avatar {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.dz-vip-type {
+    position: absolute;
+    right: 30px;
+    bottom: 30px;
+    color: white;
+}
+
 .dz-list-up, .dz-list-bottom {
     padding: 18px 10px;
 }

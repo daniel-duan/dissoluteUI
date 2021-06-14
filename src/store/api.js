@@ -5,18 +5,20 @@ const remote = 'http://localhost:8080/api';
 export default {
     login: remote + '/login',
     register: remote + '/register',
+    memInfo: remote + '/member/info',
     regPhone: remote + '/register/phone',
     web: remote + '/web/page',
     wxPay: remote + '/pay/order',
+    validFace: remote + '/validate/face',
     wxPayQuery: remote + '/pay/query'
 }
 
-export function remoteGet(url, data, sucFn) {
+export function remoteGet(url, sucFn) {
     Taro.request({
         url: url,
-        method: "POST",
-        data: data,
-        success: sucFn
+        success: suc => {
+            sucFn(suc.data);
+        }
     })
 }
 
@@ -26,11 +28,7 @@ export function remotePost(url, data, sucFn) {
         method: "POST",
         data: data,
         success: suc => {
-            if (suc.data && suc.data.success) {
-                sucFn(suc);
-            } else {
-                Taro.showModal({content: '后台无法完成您的请求，请稍后再试', showCancel: false, confirmText: "确认"})
-            }
+            sucFn(suc.data);
         }
     })
 }

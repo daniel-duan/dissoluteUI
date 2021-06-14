@@ -1,0 +1,63 @@
+.balance-detail {
+    background-color: #0554BB;
+
+    .amount {
+        display: flex;
+        padding: 40px 20px;
+        color: white;
+
+        .head {
+            font-size: 28px;
+            width: 150px;
+            line-height: 60px;
+        }
+
+        .body {
+            flex-grow: 1;
+            font-size: 40px;
+            font-weight: bold;
+        }
+    }
+}
+
+.dz-balance-list {
+    border-radius: 18px;
+    background-color: white;
+    padding: 0 10px;
+    margin: 50px 20px;
+
+    .list-item {
+        position: relative;
+        height: 100px;
+        line-height: 100px;
+        padding-left: 20px;
+        color: #555555;
+
+        &::after {
+            content: " ";
+            position: absolute;
+            top: 0;
+            left: 0;
+            box-sizing: border-box;
+            width: 200%;
+            height: 200%;
+            border-bottom: 1px solid #eeeeee;
+            transform: scale(.5);
+            transform-origin: 0 0;
+        }
+
+        &:last-child::after {
+            content: none;
+        }
+
+        &:active {
+            color: #0554BB;
+        }
+
+        .at-icon-chevron-right {
+            position: absolute;
+            right: 0;
+            top: 34px;
+        }
+    }
+}

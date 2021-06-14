@@ -1,6 +1,14 @@
 export default {
     pages: [
+        'pages/register/register',
+        'pages/join/join',
+        'pages/mine/bookDetail/bookDetail',
+        'pages/mine/bookList/bookList',
         'pages/mine/mine',
+        'pages/mine/cards/cards',
+        'pages/recharge/recharge',
+        'pages/mine/balance/balance',
+        'pages/mine/order/order',
         'pages/book/book',
         'pages/home/home',
         'pages/activity/activity',
@@ -9,7 +17,7 @@ export default {
     ],
     tabBar: {
         color: "#ffffff",
-        selectedColor: "#25ecb9",
+        selectedColor: "#ffdc35",
         borderStyle: "black",
         backgroundColor: "#0554BB",
         list: [

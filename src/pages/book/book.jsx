@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Taro from "@tarojs/taro";
 import {Button, Image, Text, View} from '@tarojs/components';
 import {AtModal, AtModalAction, AtModalContent, AtModalHeader} from "taro-ui";
 
@@ -7,7 +8,6 @@ import {get} from "../../store/global";
 import TopBar from "../../components/topBar/TopBar";
 import DzLoading from "../../components/loading/DzLoading";
 import map from '../../assets/image/map.png';
-import Taro from "@tarojs/taro";
 
 export default class Book extends Component {
     constructor(props) {
