@@ -8,6 +8,7 @@ import {get} from "../../store/global";
 import TopBar from "../../components/topBar/TopBar";
 import DzLoading from "../../components/loading/DzLoading";
 import map from '../../assets/image/map.png';
+import CheckMember from "../../components/check/CheckMember";
 
 export default class Book extends Component {
     constructor(props) {
@@ -91,6 +92,7 @@ export default class Book extends Component {
     render() {
         return (
             <View class='app-content'>
+                <CheckMember/>
                 <TopBar nav={false} title='场馆预定'/>
                 <View className='auto-scroll-view' style={{top: this.navHeight}}>
                     <View className='book-map'>

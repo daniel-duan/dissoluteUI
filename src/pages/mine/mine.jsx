@@ -34,7 +34,7 @@ export default class Mine extends Component {
                         </View>
                         <View className='dz-list-bottom'>
                             <View className='list-item' onClick={() => Taro.navigateTo({url: '/pages/mine/balance/balance'})}>
-                                账户余额<AtIcon value='chevron-right' size='20' color='#888888'/>
+                                我的账户<AtIcon value='chevron-right' size='20' color='#888888'/>
                             </View>
                             <View className='list-item' onClick={() => Taro.navigateTo({url: '/pages/recharge/recharge'})}>
                                 充值<AtIcon value='chevron-right' size='20' color='#888888'/>

@@ -30,3 +30,34 @@
         height: 100%;
     }
 }
+
+.entrance-tips {
+    background-color: white;
+    border-radius: 18px;
+    padding: 16px 20px;
+    margin: 20px;
+    font-size: 28px;
+
+    .summary {
+        padding: 0 0 10px 20px;
+        color: #0554BB;
+    }
+
+    .item {
+        display: flex;
+    }
+
+    .key {
+        min-width: 40px;
+        width: 40px;
+        max-width: 40px;
+        padding: 2px 0;
+        color: #333333;
+    }
+
+    .body {
+        flex-grow: 1;
+        padding: 2px 0;
+        color: #555555;
+    }
+}

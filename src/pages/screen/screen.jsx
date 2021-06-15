@@ -26,7 +26,7 @@ export default class Screen extends React.Component {
             this.navigate();
         }, 2300);
 
-        //this.logon();
+        this.logon();
     }
 
     logon() {
@@ -61,7 +61,7 @@ export default class Screen extends React.Component {
 
     navigate() {
         if (this.synData.login === true && this.synData.time === true) {
-            Taro.switchTab({url: '/pages/focus/focus'});
+            Taro.switchTab({url: '/pages/home/home'});
             // Taro.navigateTo({url: '/temple/pages/quiz/quiz?tempId=1'});
         }
     }
@@ -71,7 +71,7 @@ export default class Screen extends React.Component {
             <View className='app-content'>
                 <View className='load-back'>
                     <View className='load-center'>
-                        {/*<Image className='load-logo' src={logo} mode='widthFix'/>*/}
+                        <View className='load-text'>领跑体育</View>
                     </View>
                     <View className='login-load'>登陆中...</View>
                 </View>

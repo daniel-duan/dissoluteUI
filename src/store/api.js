@@ -4,7 +4,8 @@ import Taro from "@tarojs/taro";
 const remote = 'http://localhost:8080/api';
 export default {
     login: remote + '/login',
-    register: remote + '/register',
+    memSave: remote + '/member/save',
+    memSaveFace: remote + '/member/save/face',
     memInfo: remote + '/member/info',
     regPhone: remote + '/register/phone',
     web: remote + '/web/page',

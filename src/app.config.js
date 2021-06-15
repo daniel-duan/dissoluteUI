@@ -1,6 +1,9 @@
 export default {
     pages: [
+        'pages/screen/screen',
         'pages/register/register',
+        'pages/activity/activity',
+        'pages/entrance/entrance',
         'pages/join/join',
         'pages/mine/bookDetail/bookDetail',
         'pages/mine/bookList/bookList',
@@ -11,9 +14,7 @@ export default {
         'pages/mine/order/order',
         'pages/book/book',
         'pages/home/home',
-        'pages/activity/activity',
-        'pages/index/index',
-        'pages/screen/screen'
+        'pages/index/index'
     ],
     tabBar: {
         color: "#ffffff",

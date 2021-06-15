@@ -1,8 +1,7 @@
 import React from 'react';
 import Taro from '@tarojs/taro';
 import {Button, View} from '@tarojs/components';
-import {hadPhone, memGet} from '../../store/menber';
-import './Check.scss';
+import {memGet} from '../../store/menber';
 import api from "../../store/api";
 
 export default class CheckPhone extends React.Component {
@@ -28,7 +27,6 @@ export default class CheckPhone extends React.Component {
                     iv: detail.iv
                 },
                 success: () => {
-                    hadPhone();
                     this.setState({hasPhone: true});
                 }
             });

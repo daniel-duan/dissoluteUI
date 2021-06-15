@@ -1,34 +1,14 @@
 import React, {Component} from 'react';
 import Taro from "@tarojs/taro";
 import {Button, Camera, Image, Input, Picker, Text, View} from '@tarojs/components'
+import {AtIcon} from "taro-ui";
 
 import './register.scss'
 import api, {remoteGet, remotePost} from "../../store/api";
 import TopBar from "../../components/topBar/TopBar";
 import {get} from "../../store/global";
 import DzLoading from "../../components/loading/DzLoading";
-import {isMember, memGet} from "../../store/menber";
-import {AtIcon} from "taro-ui";
-
-//{'1':'个人普通会员', '2':'团体普通会员', '3':'个人银卡会员', '4':'个人金卡会员', '5':'团体银卡会员', '6':'团体金卡会员'}
-function getMemType(type) {
-    switch (type) {
-        case 1:
-            return '个人普通会员';
-        case 2:
-            return '团体普通会员';
-        case 3:
-            return '个人银卡会员';
-        case 4:
-            return '个人金卡会员';
-        case 5:
-            return '团体银卡会员';
-        case 6:
-            return '团体金卡会员';
-        default:
-            return '';
-    }
-}
+import {cacheMem, getMemType, isMember, memGet} from "../../store/menber";
 
 function isTeamMem(type) {
     return type === 2 || type === 5 || type === 6;
@@ -50,13 +30,12 @@ function FaceWidget(props) {
 }
 
 function RegionWidget(props) {
-    const text = props.memRegion.join(' ');
-    if (!props.edit) return text;
-    return <Picker className='line-picker' mode='region' value={props.memRegion} onChange={(e) => props.setValue('memRegion', e.detail.value)}><Text>{text}</Text></Picker>;
+    if (!props.edit) return props.address;
+    return <Picker className='line-picker' mode='region' value={props.memRegion} onChange={(e) => props.setValue('memRegion', e.detail.value)}><Text>{props.memRegion.join(' ')}</Text></Picker>;
 }
 
 function MemTypeWidget(props) {
-    if (!props.edit || props.registered) return getMemType(props.memType);
+    if (!props.edit || props.registered) return getMemType();
     return (
         <View className='type-body'>
             <View className={props.memType === 1 ? 'member-type active' : 'member-type'} onClick={() => props.setValue('memType', 1)}>个人会员</View>
@@ -88,6 +67,7 @@ export default class Register extends Component {
         const registered = isMember();
         this.state = {
             openLoad: true,
+            registered: registered,
             edit: !registered,
             showCamera: false,
             btnText: registered ? '修改' : '注册',
@@ -104,7 +84,6 @@ export default class Register extends Component {
             memAddress: '',
             inviteCode: ''
         };
-        this.registered = registered;
 
         this.openCamera = this.openCamera.bind(this);
         this.photograph = this.photograph.bind(this);
@@ -113,6 +92,7 @@ export default class Register extends Component {
         this.fillMember = this.fillMember.bind(this);
         this.opClick = this.opClick.bind(this);
         this.getPhone = this.getPhone.bind(this);
+        this.loadMember = this.loadMember.bind(this);
     }
 
     setValue(key, value) {
@@ -122,10 +102,22 @@ export default class Register extends Component {
     }
 
     componentDidMount() {
+        this.loadMember({openLoad: false});
+    }
+
+    loadMember(init) {
         const url = api.memInfo + '?memId=' + memGet('memId');
         remoteGet(url, (res) => {
-            this.member = res.data;
-            this.fillMember({openLoad: false});
+            this.member = res.data === null ? {
+                realName: '',
+                memType: 1,
+                gender: memGet('gender'),
+                faceImage: '',
+                teamName: '',
+                memStreet: '',
+                memAddress: '',
+            } : res.data;
+            this.fillMember(init);
         });
     }
 
@@ -156,10 +148,10 @@ export default class Register extends Component {
             Taro.showToast({title: '请输入合法的真实姓名', icon: 'none', duration: 2000});
             return;
         }
-        if (this.state.phoneNumber.length < 2) {
-            Taro.showToast({title: '请选择的手机号码', icon: 'none', duration: 2000});
-            return;
-        }
+        // if (this.state.phoneNumber.length < 2) {
+        //     Taro.showToast({title: '请选择的手机号码', icon: 'none', duration: 2000});
+        //     return;
+        // }
         if (this.state.faceImage === '') {
             Taro.showToast({title: '请选择人脸识别头像', icon: 'none', duration: 2000});
             return;
@@ -170,32 +162,45 @@ export default class Register extends Component {
         }
 
         const mem = this.state;
-        // faceImage: mem.faceImage,
+        const region = mem.memRegion.join(' ');
+        const avatarUrl = memGet('avatarUrl');
+        const nickName = memGet('nickName');
+        const unionId = memGet('unionId');
         const data = {
+            memId: memGet('memId'),
+            openId: memGet('openId'),
+            unionId: unionId ? unionId : '',
             realName: mem.realName,
             phoneNumber: mem.phoneNumber,
             gender: mem.gender,
             memType: mem.memType,
             teamName: mem.teamName,
-            memRegion: mem.teamName.join(' '),
+            memRegion: region,
             memStreet: mem.memStreet,
-            memAddress: mem.teamName.join(' ') + ' ' + mem.memStreet,
-            inviteCode: mem.inviteCode
+            memAddress: region + ' ' + mem.memStreet,
+            inviteCode: mem.inviteCode,
+            wxImage: avatarUrl ? avatarUrl : '',
+            wxName: nickName ? nickName : ''
         };
 
+        this.setState({openLoad: true});
         if (this.state.newFace) {
+            const file = this.state.faceImage;
             Taro.uploadFile({
-                url: api.register,
-                filePath: mem.faceImage,
+                url: api.memSaveFace,
+                filePath: file,
                 name: 'face',
                 formData: data,
-                success: () => {
-                    Taro.redirectTo({url: '/pages/travel/myArticle/myArticle'});
+                success: (suc) => {
+                    const res = JSON.parse(suc.data);
+                    cacheMem(res.data);
+                    this.loadMember({openLoad: false, edit: false, newFace: false, registered: isMember(), btnText: '修改', opText: '编辑'});
                 }
             });
         } else {
-            remotePost(api.register, data, (res) => {
-                console.log(res);
+            remotePost(api.memSave, data, (res) => {
+                cacheMem(res.data);
+                this.loadMember({openLoad: false, edit: false, newFace: false, registered: isMember(), btnText: '修改', opText: '编辑'});
             });
         }
     }
@@ -214,8 +219,10 @@ export default class Register extends Component {
             iv: detail.iv
         };
         if (detail.encryptedData) {
+            this.setState({openLoad: true});
             remotePost(api.regPhone, data, (res) => {
                 console.log(res);
+                this.setState({phoneNumber: res.data, openLoad: false});
             });
         }
     }
@@ -234,7 +241,8 @@ export default class Register extends Component {
                     success(suc) {
                         const info = suc.data;
                         if (info.length > 0) {
-                            that.setState({faceImage: res.tempImagePath, newFace: false, gender: info, openLoad: false});
+                            const gender = that.state.gender ? that.state.gender : info;
+                            that.setState({faceImage: res.tempImagePath, newFace: true, gender: gender, openLoad: false});
                         } else {
                             Taro.showToast({title: '识别失败，图片中没有人脸或者有多个人脸信息', icon: 'none', duration: 2000});
                             that.setState({openLoad: false});
@@ -250,7 +258,7 @@ export default class Register extends Component {
             <View class='app-content'>
                 <TopBar title='领跑体育会员'/>
                 <View className='auto-scroll-view' style={{top: this.navHeight}}>
-                    {this.registered && <View className='member-head'>
+                    {this.state.registered && <View className='member-head'>
                         <View className='text'>我的会员信息</View>
                         <View className='opBtn' onClick={this.opClick}>{this.state.opText}</View>
                     </View>}
@@ -278,7 +286,7 @@ export default class Register extends Component {
                         <View className='info-item'>
                             <View className='line'>
                                 <View className='head'>会员类型</View>
-                                <View className='body'><MemTypeWidget registered={this.registered} edit={this.state.edit} memType={this.state.memType} setValue={this.setValue}/></View>
+                                <View className='body'><MemTypeWidget registered={this.state.registered} edit={this.state.edit} memType={this.state.memType} setValue={this.setValue}/></View>
                             </View>
                             {isTeamMem(this.state.memType) && <View className='line'>
                                 <View className='head'>团体名称</View>
@@ -286,11 +294,11 @@ export default class Register extends Component {
                             </View>}
                             <View className='line'>
                                 <View className='head'>地址</View>
-                                <View className='body'><RegionWidget edit={this.state.edit} memRegion={this.state.memRegion} setValue={this.setValue}/></View>
+                                <View className='body'><RegionWidget edit={this.state.edit} address={this.state.memAddress} memRegion={this.state.memRegion} setValue={this.setValue}/></View>
                             </View>
                             <StreetWidget edit={this.state.edit} memStreet={this.state.memStreet} setValue={this.setValue}/>
                         </View>
-                        {this.registered || <View className='info-item'>
+                        {this.state.registered || <View className='info-item'>
                             <View className='line'>
                                 <View className='head'>邀请码</View>
                                 <View className='body'>

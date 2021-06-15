@@ -2,7 +2,7 @@
 	"miniprogramRoot": "dist/",
 	"projectname": "dissoluteUI",
 	"description": "wechat APP base UI",
-	"appid": "wxc8694a5b1aafabca",
+	"appid": "wx4140ce3b67b73dd8",
 	"setting": {
 		"urlCheck": true,
 		"es6": false,
