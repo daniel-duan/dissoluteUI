@@ -44,8 +44,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 36px;
-    font-weight: bold;
 }
 
 .dz-paper::after {

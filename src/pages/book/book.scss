@@ -7,6 +7,11 @@
         background-color: #f5f5f5;
     }
 
+    .tips-line {
+        padding: 8px 0;
+        color: #0554BB;
+    }
+
     .modal-line {
         display: flex;
         padding: 5px;
@@ -36,7 +41,7 @@
         width: 100%;
     }
 
-    .seg1, .seg2, .seg3, .seg4, .seg5, .seg6 {
+    .site1, .site2, .seg1, .seg2, .seg3, .seg4, .seg5, .seg6, .seg7, .seg8 {
         position: absolute;
     }
 
@@ -44,42 +49,70 @@
         background-color: rgba(0, 0, 0, .5);
     }
 
-    .seg1 {
+    .site1 {
         top: 12px;
         left: 12px;
         width: 42%;
         height: 42%;
     }
 
-    .seg2 {
+    .site2 {
         top: 12px;
         right: 12px;
         width: 42%;
         height: 42%;
     }
 
+    .seg1 {
+        top: 12px;
+        left: 12px;
+        width: 21%;
+        height: 42%;
+    }
+
+    .seg2 {
+        top: 12px;
+        left: 23%;
+        width: 21%;
+        height: 42%;
+    }
+
     .seg3 {
+        top: 12px;
+        right: 23%;
+        width: 21%;
+        height: 42%;
+    }
+
+    .seg4 {
+        top: 12px;
+        right: 12px;
+        width: 21%;
+        height: 42%;
+    }
+
+    .seg5 {
         bottom: 18px;
         left: 12px;
         width: 20%;
         height: 44%;
     }
 
-    .seg4 {
+    .seg6 {
         bottom: 18px;
         left: 24%;
         width: 20%;
         height: 44%;
     }
 
-    .seg5 {
+    .seg7 {
         bottom: 18px;
         right: 24.3%;
         width: 20%;
         height: 44%;
     }
 
-    .seg6 {
+    .seg8 {
         bottom: 18px;
         right: 12px;
         width: 20%;
@@ -109,6 +142,27 @@
     .date {
         color: #333333;
         padding-top: 8px;
+        height: 50px;
+        line-height: 50px;
+    }
+
+    .site {
+        display: flex;
+
+        .type {
+            flex: 1;
+            text-align: center;
+            color: #333333;
+            height: 60px;
+            line-height: 60px;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+
+        .type.active {
+            background-color: #0554BB;
+            color: white;
+        }
     }
 
     .time {

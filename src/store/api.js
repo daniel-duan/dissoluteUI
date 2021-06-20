@@ -7,11 +7,20 @@ export default {
     memSave: remote + '/member/save',
     memSaveFace: remote + '/member/save/face',
     memInfo: remote + '/member/info',
-    regPhone: remote + '/register/phone',
+    resolvePhone: remote + '/resolve/phone',
     web: remote + '/web/page',
     wxPay: remote + '/pay/order',
     validFace: remote + '/validate/face',
-    wxPayQuery: remote + '/pay/query'
+    wxPayQuery: remote + '/pay/query',
+    enTicket: remote + '/entrance/ticket/find',
+    bookData: remote + '/book/data',
+    bookPrice: remote + '/book/price',
+    orderBooking: remote + '/order/booking',
+    orderRefund: remote + '/order/refund',
+    bookPayed: remote + '/mine/order/list/payed',
+    bookUsed: remote + '/mine/order/list/used',
+    bookRefund: remote + '/mine/order/list/refund',
+    bookDetail: remote + '/mine/order/detail',
 }
 
 export function remoteGet(url, sucFn) {

@@ -1,9 +1,12 @@
 export default {
     pages: [
         'pages/screen/screen',
+        'pages/book/book',
+        'pages/home/home',
         'pages/register/register',
         'pages/activity/activity',
         'pages/entrance/entrance',
+        'pages/web/webView',
         'pages/join/join',
         'pages/mine/bookDetail/bookDetail',
         'pages/mine/bookList/bookList',
@@ -12,8 +15,6 @@ export default {
         'pages/recharge/recharge',
         'pages/mine/balance/balance',
         'pages/mine/order/order',
-        'pages/book/book',
-        'pages/home/home',
         'pages/index/index'
     ],
     tabBar: {

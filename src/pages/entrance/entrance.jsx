@@ -7,6 +7,42 @@ import './entrance.scss'
 import TopBar from "../../components/topBar/TopBar";
 import {get} from "../../store/global";
 import Taro from "@tarojs/taro";
+import api, {remoteGet} from "../../store/api";
+import {cardType} from "../../store/menber";
+
+//{'1':'固定日期','2':'日卡','3':'7天周卡','4':'30天月卡','6':'365天年卡'}
+function getPeriod(card) {
+    switch (card.ticketType) {
+        case 1:
+            return '购买日至' + card.endTime;
+        case 2:
+            return '购买当日' + card.endTime;
+        case 3:
+            return '购买日起7天后';
+        case 4:
+            return '购买日起30天后';
+        case 6:
+            return '购买日起365天后';
+        default:
+            return '无效周期';
+    }
+}
+
+function Ticket(props) {
+    const item = props.item;
+    const price = props.cardType === 2 ? item.goldPrice : (props.cardType === 1 ? item.sliverPrice : item.originPrice);
+    return (
+        <View className={props.cardIdx === props.index ? 'i-card active' : 'i-card'} onClick={() => props.cardClick(props.index)}>
+            <View className="card-left">
+                <View className="price"><Text className='origin'>{item.originPrice}元</Text><Text>折扣价</Text><Text className='promotion'>{price}</Text><Text>元</Text></View>
+                <View className='desc'>{item.summary}</View>
+            </View>
+            <view className="card-right"><Text>{item.ticketName}</Text></view>
+            <view className="i-dot"><Text className="dot1"/><Text className="dot2"/><Text className="dot3"/><Text className="dot4"/></view>
+        </View>
+    );
+}
+
 
 export default class Entrance extends Component {
     constructor(props) {
@@ -14,16 +50,26 @@ export default class Entrance extends Component {
 
         this.navHeight = get('navHeight') - 10;
         this.state = {
-            openLoad: false,
+            cardType: cardType(),
+            openLoad: true,
             showModel: false,
             cardIdx: -1,
-            step: 1
+            step: 1,
+            ticketList: [],
+            ticketName: '',
+            price: 0,
+            period: ''
         };
-
-        this.cardList = [];
 
         this.cardClick = this.cardClick.bind(this);
         this.openModel = this.openModel.bind(this);
+    }
+
+    componentDidMount() {
+        remoteGet(api.enTicket, (res) => {
+            console.log(res.data);
+            this.setState({openLoad: false, ticketList: res.data});
+        })
     }
 
     cardClick(idx) {
@@ -35,7 +81,10 @@ export default class Entrance extends Component {
             Taro.showToast({title: '请选择入场券', icon: 'none', duration: 1500});
             return;
         }
-        this.setState({showModel: true});
+
+        const card = this.state.ticketList[this.state.cardIdx];
+        const price = this.state.cardType === 2 ? card.goldPrice : (this.state.cardType === 1 ? card.sliverPrice : card.originPrice);
+        this.setState({showModel: true, ticketName: card.ticketName, price: price, period: getPeriod(card)});
     }
 
     render() {
@@ -68,23 +117,7 @@ export default class Entrance extends Component {
                     </View>
 
                     <View className="card-hold">
-                        <View className={this.state.cardIdx === 0 ? 'i-card active' : 'i-card'} onClick={() => this.cardClick(0)}>
-                            <View className="card-left">
-                                <View className="price"><Text className='origin'>234元</Text><Text>折扣价</Text><Text className='promotion'>234</Text><Text>元</Text></View>
-                                <View className='desc'>胜多负少发送到发送到发手动阀撒大声地范德萨发送到发手动阀撒大声地范德萨发生</View>
-                            </View>
-                            <view className="card-right"><Text>畅打卡畅打</Text></view>
-                            <view className="i-dot"><Text className="dot1"/><Text className="dot2"/><Text className="dot3"/><Text className="dot4"/></view>
-                        </View>
-
-                        <View className="i-card">
-                            <View className="card-left">
-                                <View className="price"><Text className='origin'>234元</Text><Text>折扣价</Text><Text className='promotion'>234</Text><Text>元</Text></View>
-                                <View className='desc'>胜多负少发送到发送到发手动阀撒大声地范德萨发送到发手动阀撒大声地范德萨发生</View>
-                            </View>
-                            <view className="card-right"><Text>畅打卡畅打</Text></view>
-                            <view className="i-dot"><Text className="dot1"/><Text className="dot2"/><Text className="dot3"/><Text className="dot4"/></view>
-                        </View>
+                        {this.state.ticketList.map((item, idx) => <Ticket key={idx} item={item} index={idx} cardIdx={this.state.cardIdx} cardType={this.state.cardType} cardClick={this.cardClick}/>)}
                     </View>
                     <View className='button-hold'>
                         <dzButton onClick={this.openModel}>确定</dzButton>
@@ -93,9 +126,9 @@ export default class Entrance extends Component {
                 <AtModal isOpened={this.state.showModel}>
                     <AtModalHeader>入场券信息确认</AtModalHeader>
                     <AtModalContent>
-                        <View className='modal-line'><View className='name'>类型</View><View className='info'>{''}</View></View>
-                        <View className='modal-line'><View className='name'>实际价格</View><View className='info'>{''}</View></View>
-                        <View className='modal-line'><View className='name'>到期时间</View><View className='info'>{''}</View></View>
+                        <View className='modal-line'><View className='name'>入场券</View><View className='info'>{this.state.ticketName}</View></View>
+                        <View className='modal-line'><View className='name'>实际价格</View><View className='info'>{this.state.price} 元</View></View>
+                        <View className='modal-line'><View className='name'>到期时间</View><View className='info'>{this.state.period}</View></View>
                         <View className='modal-line'><View className='name'>温馨提示</View><View className='info'>购买前如有任何问题请提前电话咨询</View></View>
                     </AtModalContent>
                     <AtModalAction>

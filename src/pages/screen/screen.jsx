@@ -61,8 +61,8 @@ export default class Screen extends React.Component {
 
     navigate() {
         if (this.synData.login === true && this.synData.time === true) {
-            Taro.switchTab({url: '/pages/home/home'});
-            // Taro.navigateTo({url: '/temple/pages/quiz/quiz?tempId=1'});
+            // Taro.switchTab({url: '/pages/home/home'});
+            Taro.switchTab({url: '/pages/mine/mine'});
         }
     }
 

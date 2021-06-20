@@ -14,6 +14,9 @@
     left: 60px;
     right: 60px;
     height: 320px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     &::after {
         content: " ";
@@ -28,6 +31,14 @@
         border-radius: 36px;
         transform: scale(.5);
         transform-origin: 0 0;
+    }
+
+    .name {
+        font-size: 36px;
+        font-weight: bold;
+        font-style: italic;
+        color: white;
+        letter-spacing: 12px;
     }
 }
 

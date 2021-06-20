@@ -63,3 +63,11 @@ export default class CheckMember extends React.Component {
         )
     }
 }
+
+CheckMember.defaultProps = {
+    callback: null
+};
+
+CheckMember.propTypes = {
+    callback: Function
+};

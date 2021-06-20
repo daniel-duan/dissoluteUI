@@ -148,10 +148,10 @@ export default class Register extends Component {
             Taro.showToast({title: '请输入合法的真实姓名', icon: 'none', duration: 2000});
             return;
         }
-        // if (this.state.phoneNumber.length < 2) {
-        //     Taro.showToast({title: '请选择的手机号码', icon: 'none', duration: 2000});
-        //     return;
-        // }
+        if (this.state.phoneNumber.length < 2) {
+            Taro.showToast({title: '请选择的手机号码', icon: 'none', duration: 2000});
+            return;
+        }
         if (this.state.faceImage === '') {
             Taro.showToast({title: '请选择人脸识别头像', icon: 'none', duration: 2000});
             return;
@@ -220,7 +220,7 @@ export default class Register extends Component {
         };
         if (detail.encryptedData) {
             this.setState({openLoad: true});
-            remotePost(api.regPhone, data, (res) => {
+            remotePost(api.resolvePhone, data, (res) => {
                 console.log(res);
                 this.setState({phoneNumber: res.data, openLoad: false});
             });
