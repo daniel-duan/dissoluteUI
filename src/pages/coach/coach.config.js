@@ -1,6 +1,6 @@
 export default {
     usingComponents: {
-        dzBox: '../../native/box/dzBox'
+        dzSlide: '../../native/slide/dzSlide'
     },
     disableScroll: true
 }

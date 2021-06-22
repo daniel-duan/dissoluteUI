@@ -105,44 +105,12 @@
     transform: scale(1, 1);
 }
 
-.mas-focus, .mas-focused {
-    position: absolute;
-    background-color: transparent;
-    border: none;
-    height: 42px;
-    width: 100px;
-    line-height: 42px;
-    border-radius: 16px;
-    color: #FFC205;
-    font-size: 28px;
-    right: 80px;
-    bottom: 10px;
-    overflow: visible;
-    padding: 0;
-}
-
-.mas-focused {
-    width: 110px;
-    color: #cccccc;
-    right: 70px;
-}
-
-.mas-focus::after {
-    border: 1px solid #FFC205;
-    border-radius: inherit;
-}
-
-.mas-focused::after {
-    border: 1px solid #cccccc;
-    border-radius: inherit;
-}
-
 .mas-desc {
     position: absolute;
     left: 20px;
     right: 20px;
     top: 320px;
-    bottom: 110px;
+    bottom: 30px;
     color: #666666;
     overflow: hidden;
     white-space: pre-wrap;
@@ -168,50 +136,12 @@
     align-items: center;
 }
 
-.mas-btn1, .mas-btn2 {
-    position: relative;
-    flex: 1;
-    background-color: rgba(255, 152, 0, 0.5);
-    border: none;
-    height: 76px;
-    line-height: 76px;
-    border-radius: 38px;
-    color: white;
-    font-size: 28px;
-}
-
-.mas-btn1:active, .mas-btn2:active {
-    opacity: 0.5;
-}
-
-.mas-btn2::before {
-    content: " ";
+.slide-back {
     position: absolute;
     top: 0;
     left: 0;
-    border-left: 1px solid white;
-    height: 100%;
-}
-
-.mas-btn1 {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-}
-
-.mas-btn2 {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-}
-
-.mas-btn1::after, .mas-btn2::after {
-    content: none;
-}
-
-.mas-back {
-    position: fixed;
-    left: 0;
-    bottom: 0;
     width: 100%;
+    height: 100%;
     margin: 0;
     padding: 0;
     z-index: -1;

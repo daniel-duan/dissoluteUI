@@ -1,6 +1,11 @@
 export default {
     pages: [
         'pages/screen/screen',
+        'pages/coach/coach',
+        'pages/player/player',
+        'pages/us/us',
+        'pages/mine/mine',
+        'pages/web/review',
         'pages/book/book',
         'pages/home/home',
         'pages/register/register',
@@ -10,12 +15,10 @@ export default {
         'pages/join/join',
         'pages/mine/bookDetail/bookDetail',
         'pages/mine/bookList/bookList',
-        'pages/mine/mine',
         'pages/mine/cards/cards',
         'pages/recharge/recharge',
         'pages/mine/balance/balance',
-        'pages/mine/order/order',
-        'pages/index/index'
+        'pages/mine/order/order'
     ],
     tabBar: {
         color: "#ffffff",
@@ -51,9 +54,9 @@ export default {
     },
     window: {
         backgroundTextStyle: 'light',
-        navigationBarBackgroundColor: '#fff',
+        navigationBarBackgroundColor: '#0554BB',
         navigationBarTitleText: '领跑体育',
-        navigationBarTextStyle: 'black',
+        navigationBarTextStyle: 'white',
         navigationStyle: 'custom'
     },
     usingComponents: {

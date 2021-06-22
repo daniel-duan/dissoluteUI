@@ -2,17 +2,18 @@ import api from '../../store/api';
 
 Component({
     properties: {
-        tid: {
+        type: {
             type: Number,
             value: ''
         }
     },
     lifetimes: {
         ready() {
-            const tid = this.properties.tid;
+            const type = this.properties.type;
             const that = this;
+            const remoteUrl = type === 1 ? api.coachList : api.playerList;
             wx.request({
-                url: api.getMaster + `?tempId=${tid}`,
+                url: remoteUrl,
                 success(res) {
                     const list = res.data.data;
                     that.setData({
@@ -29,17 +30,5 @@ Component({
         screenWidth: wx.getSystemInfoSync().screenWidth - 100,
         openLoad: true
     },
-    methods: {
-        _homepage(e) {
-            wx.navigateTo({url: '/temple/pages/monk/monk?mastId=' + e.currentTarget.dataset.id});
-        },
-        _myDesc(e) {
-            const mastId = e.currentTarget.dataset.id;
-            wx.navigateTo({url: '/pages/web/webView?id=' + mastId + '&type=8'});
-        },
-        _focus(e) {
-        },
-        _unFocus(e) {
-        }
-    }
+    methods: {}
 });

@@ -1,32 +1,40 @@
 import React, {Component} from 'react';
-import {View} from '@tarojs/components';
+import Taro from "@tarojs/taro";
+import {Image, View} from '@tarojs/components';
 
-import api, {remotePost} from "../../store/api";
+import api, {remoteGet, remotePost} from "../../store/api";
 import {get} from "../../store/global";
-import {memGet} from "../../store/menber";
 import './activity.scss'
 import DzScrollView from "../../components/view/DzScrollView";
 import TopBar from "../../components/topBar/TopBar";
 import DzLoading from "../../components/loading/DzLoading";
+import {hasLiked, setLike} from "../../util/localHistory";
+import {memGet} from "../../store/menber";
+
+function numFmt(num) {
+    if (num >= 10000) {
+        return parseInt(num / 10000) + 'w+';
+    } else if (num >= 1000) {
+        return parseInt(num / 1000) + 'k+';
+    } else {
+        return num;
+    }
+}
 
 function ActItem(props) {
     const item = props.item;
     return (
         <View className='dz-act-card'>
-            <dzPaper onClick={() => props.itemEvent.clickHandle(item)}>
-                <View className={''}>
-                    <View className='dz-card-head'>
-                        <Image className='c-avatar' src={item.tempAvatar} mode='aspectFill'/>
-                        <View className='dz-card-title'>
-                            <View className='c-title'>{item.actTitle}</View>
-                            <View className='c-time'>{item.templeName}</View>
-                        </View>
+            <View className='card-op eye'>{numFmt(item.paView)}</View>
+            <View className='card-op card-click good' onClick={() => props.events.likeHandle(item.paId)}>{numFmt(item.paLike)}</View>
+            <dzPaper border={false} onClick={() => props.events.itemClick(item.paId)}>
+                <View className='card'>
+                    <View className='card-img'>
+                        {item.paTag && <View className='tag'>{item.paTag}</View>}
+                        <Image src={item.paImage} mode='aspectFill'/>
                     </View>
-                    <View className='dz-card-desc'>{item.actDesc}</View>
-                    <View className='dz-card-img'>
-                        <Image className='c-img' src={item.actImage} mode='aspectFill'/>
-                    </View>
-                    <View className='dz-card-bt'>{item.createDate}</View>
+                    <View className='title'>{item.paTitle}</View>
+                    <View className='time'>{item.createDate}</View>
                 </View>
             </dzPaper>
         </View>
@@ -46,20 +54,36 @@ export default class Activity extends Component {
         };
 
         this.scrollBottom = this.scrollBottom.bind(this);
-        this.clickHandle = this.clickHandle.bind(this);
+        this.itemClick = this.itemClick.bind(this);
+        this.likeHandle = this.likeHandle.bind(this);
         this.loadData = this.loadData.bind(this);
 
-        this.itemEvent = {
-            clickHandle: this.clickHandle
+        this.events = {
+            itemClick: this.itemClick,
+            likeHandle: this.likeHandle
         }
     }
 
     componentDidMount() {
-        // this.loadData();
+        this.loadData();
     };
 
-    clickHandle() {
+    itemClick(paId) {
+        Taro.navigateTo({url: '/pages/web/webView?type=1&id=' + paId});
+    }
 
+    likeHandle(paId) {
+        const hasLike = hasLiked('1', paId);
+        if (!hasLike) {
+            remoteGet(api.addLike + `?sourceId=${paId}&type=1&memId=${memGet('memId')}`, () => {
+                setLike('1', paId);
+                const act = this.state.dataList.find(item => item.paId === paId);
+                if (act !== undefined) {
+                    act.paLike = act.paLike + 1;
+                    this.forceUpdate();
+                }
+            });
+        }
     }
 
     scrollBottom() {
@@ -70,16 +94,16 @@ export default class Activity extends Component {
     }
 
     loadData() {
-        const url = api.tempAct + '?memId=' + memGet('memId');
+        const url = api.activityFind;
         remotePost(url, {
             paging: {
                 current: this.state.curPage + 1
             }
-        }, (suc) => {
-            const pag = suc.data.paging;
+        }, (res) => {
+            const pag = res.paging;
             const ind = pag.total === 0 ? 4 : (pag.total > (pag.current * pag.page) ? 1 : 2);
             const list = this.state.dataList;
-            this.setState({openLoad: false, indicator: ind, curPage: pag.current, dataList: list.concat(suc.data.data)});
+            this.setState({openLoad: false, indicator: ind, curPage: pag.current, dataList: list.concat(res.data)});
         });
     }
 
@@ -87,8 +111,8 @@ export default class Activity extends Component {
         return (
             <View class='app-content'>
                 <TopBar nav={false} title='活动·资讯'/>
-                <DzScrollView indicator={this.state.indicator} bottomFn={this.scrollBottom}>
-                    {this.state.dataList.map(item => <ActItem key={item.taId} item={item} itemEvent={this.itemEvent}/>)}
+                <DzScrollView top={this.navHeight} indicator={this.state.indicator} bottomFn={this.scrollBottom}>
+                    {this.state.dataList.map(item => <ActItem key={item.taId} item={item} events={this.events}/>)}
                 </DzScrollView>
                 <DzLoading open={this.state.openLoad}/>
             </View>

@@ -14,6 +14,7 @@ const config = {
   },
   copy: {
     patterns: [
+      {from: 'src/native/slide/move.wxs', to: 'dist/native/slide/move.wxs'}
     ],
     options: {
     }

@@ -1,4 +1,4 @@
-<wxs module="move" src="./master.wxs"/>
+<wxs module="move" src="./move.wxs"/>
 <view wx:if="{{openLoad}}" class="mas-load-box">
     <view class='mas-dot'/>
     <view class='mas-dot'/>
@@ -9,16 +9,10 @@
     <swiper-item class="dz-swiper-ann" wx:for-items="{{dataList}}" wx:for-index="idx" wx:key="id">
         <view id="dz_sm_{{idx}}" class="dz-swiper-item" style="transform:{{idx === 1 ? 'translate3d(-75px,0px,-100px) rotateY(-50deg);' : ((idx === max && max > 0) ? 'translate3d(75px,0px,-100px) rotateY(50deg);' : '')}}">
             <view class="mas-avatar">
-                <view class="mas-head" style="background-image: url({{item.masterAvatar}})"/>
-<!--                <button class="mas-focus" bindtap="_focus" data-id="{{item.mastId}}">关注</button>-->
-<!--                <button class="mas-focused" bindtap="_unFocus" data-id="{{item.id}}">取消关注</button>-->
+                <view class="mas-head" style="background-image: url({{item.cmAvatar}})"/>
             </view>
-            <view class="mas-desc">{{item.masterDesc}}</view>
-            <view class="mas-btn-group">
-                <button class="mas-btn1" bindtap="_homepage" data-id="{{item.mastId}}">法师主页</button>
-                <button class="mas-btn2" bindtap="_myDesc" data-id="{{item.mastId}}">法师简介</button>
-            </view>
+            <view class="mas-desc">{{item.cmDesc}}</view>
         </view>
     </swiper-item>
 </swiper>
-<image class="mas-back" src="/assets/image/common_btm.png" mode="widthFix"/>
+<image class="slide-back" src="/assets/image/slide_bg.png" mode="scaleToFill"/>

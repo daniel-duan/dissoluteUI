@@ -34,7 +34,7 @@ export default class Balance extends Component {
             <View class='app-content'>
                 <TopBar title='我的账户'/>
                 <View className='balance-detail' style={{paddingTop: this.navHeight}}>
-                    <View className='amount'><View className='head'>现金余额</View><View className='body'>{this.state.menBalance}</View></View>
+                    <View className='amount'><View className='head'>账户余额</View><View className='body'>{this.state.menBalance}</View></View>
                 </View>
                 <View className='dz-balance-list'>
                     <View className='list-item' onClick={() => Taro.navigateTo({url: '/pages/recharge/recharge'})}>

@@ -112,3 +112,52 @@
 .dz-list-bottom {
 
 }
+
+.qr-back {
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .holder {
+        width: 610px;
+        background-color: white;
+        border-radius: 20px;
+        overflow: hidden;
+
+        .head {
+            height: 80px;
+            line-height: 80px;
+            background-color: #dddddd;
+            color: #333333;
+            text-align: center;
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            width: 120px;
+            height: 80px;
+            top: 0;
+            right: 0;
+
+            &:active {
+                background-color: #bbbbbb;
+            }
+        }
+
+        .body {
+            padding: 20px;
+        }
+    }
+
+    .qr-image {
+        width: 100%;
+    }
+}

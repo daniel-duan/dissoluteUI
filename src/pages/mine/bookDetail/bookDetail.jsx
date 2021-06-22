@@ -55,7 +55,6 @@ export default class BookDetail extends Component {
 
     componentDidMount() {
         remoteGet(api.bookDetail + `?bhkId=${this.bhkId}`, (res) => {
-            console.log(res.data);
             this.setState({detail: res.data, openLoad: false});
         });
     }

@@ -9,27 +9,15 @@ import {get} from "../../../store/global";
 import api, {remotePost} from "../../../store/api";
 import {memGet} from "../../../store/menber";
 
-
 function CardItem(props) {
     const item = props.item;
     return (
-        <View className='dz-act-card'>
-            <dzPaper onClick={() => props.itemEvent.clickHandle(item)}>
-                <View className={''}>
-                    <View className='dz-card-head'>
-                        <Image className='c-avatar' src={item.tempAvatar} mode='aspectFill'/>
-                        <View className='dz-card-title'>
-                            <View className='c-title'>{item.actTitle}</View>
-                            <View className='c-time'>{item.templeName}</View>
-                        </View>
-                    </View>
-                    <View className='dz-card-desc'>{item.actDesc}</View>
-                    <View className='dz-card-img'>
-                        <Image className='c-img' src={item.actImage} mode='aspectFill'/>
-                    </View>
-                    <View className='dz-card-bt'>{item.createDate}</View>
-                </View>
-            </dzPaper>
+        <View className='tab-item'>
+            <View className='content'>
+                <View className='header'>{item.ticketName}</View>
+                <View className='line'><View className='head'>入场时间</View><View className='body'>{item.startTime}</View></View>
+                <View className='line'><View className='head'>出场时间</View><View className='body'>{item.endTime}</View></View>
+            </View>
         </View>
     );
 }
@@ -50,6 +38,10 @@ export default class Cards extends Component {
         this.loadData = this.loadData.bind(this);
     }
 
+    componentDidMount() {
+        this.loadData();
+    }
+
     scrollBottom() {
         if (this.state.indicator === 1) {
             this.setState({indicator: 3});
@@ -58,16 +50,16 @@ export default class Cards extends Component {
     }
 
     loadData() {
-        const url = api.tempAct + '?memId=' + memGet('memId');
-        remotePost(url, {
+        remotePost(api.myTicket, {
+            memId: memGet('memId'),
             paging: {
                 current: this.state.curPage + 1
             }
-        }, (suc) => {
-            const pag = suc.data.paging;
+        }, (res) => {
+            const pag = res.paging;
             const ind = pag.total === 0 ? 4 : (pag.total > (pag.current * pag.page) ? 1 : 2);
             const list = this.state.dataList;
-            this.setState({openLoad: false, indicator: ind, curPage: pag.current, dataList: list.concat(suc.data.data)});
+            this.setState({openLoad: false, indicator: ind, curPage: pag.current, dataList: list.concat(res.data)});
         });
     }
 
@@ -75,8 +67,8 @@ export default class Cards extends Component {
         return (
             <View class='app-content'>
                 <TopBar title='我的卡券'/>
-                <DzScrollView indicator={this.state.indicator} bottomFn={this.scrollBottom}>
-                    {this.state.dataList.map(item => <CardItem key={item.taId} item={item} itemEvent={this.itemEvent}/>)}
+                <DzScrollView top={this.navHeight} indicator={this.state.indicator} bottomFn={this.scrollBottom}>
+                    {this.state.dataList.map((item, idx) => <CardItem key={idx} item={item}/>)}
                 </DzScrollView>
                 <DzLoading open={this.state.openLoad}/>
             </View>

@@ -11,6 +11,7 @@ import map from '../../assets/image/map.png';
 import {dateFormat, dateTrans} from '../../util/utils';
 import api, {remoteGet, remotePost} from "../../store/api";
 import {cardType, memGet} from "../../store/menber";
+import wxPay from "../../util/wxPay";
 
 const timePeriod = ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00'];
 
@@ -172,7 +173,6 @@ export default class Book extends Component {
         if (state.siteNumber !== '' && state.bookDate !== '') {
             const url = api.bookData + `?bookDate=${state.bookDate}&siteNumber=${state.siteNumber}`;
             remoteGet(url, (res) => {
-                console.log(res);
                 if (res.data !== null) {
 
                 } else {
@@ -260,9 +260,8 @@ export default class Book extends Component {
             const rd = res.data;
             if (rd === null) {
                 Taro.showToast({title: '支付失败，核对订单数据有误', icon: 'none', duration: 2000});
+                this.setState({openLoad: false});
             } else if (rd.bookStatus === 0) {
-                {
-                }
                 this.setState({openLoad: false, payModel: true, originTotal: rd.payAmount, bhkId: rd.bhkId});
             } else {
                 Taro.navigateTo({url: '/pages/mine/bookList/bookList'});
@@ -273,6 +272,16 @@ export default class Book extends Component {
 
     wxPay() {
         this.setState({openLoad: true, payModel: false});
+
+        const payData = {
+            memId: memGet('memId'),
+            sourceId: this.state.bhkId,
+            amount: this.state.originTotal,
+            payType: 2
+        };
+        wxPay(payData, () => this.setState({openLoad: false}), () => {
+            Taro.redirectTo({url: '/pages/mine/bookList/bookList'});
+        });
     }
 
     render() {
@@ -301,7 +310,7 @@ export default class Book extends Component {
                         </View>
                     </View>
                     <View className='book-item'>
-                        <View className='item'>
+                        <View className='item' style={{minHeight: 180}}>
                             <View className='title'>请选择时间段</View>
                             <TimeSegment booked={this.state.booked} timeSeg={this.timeSeg} timeItem={this.timeItem}/>
                         </View>

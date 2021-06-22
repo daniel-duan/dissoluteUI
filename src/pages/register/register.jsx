@@ -221,7 +221,6 @@ export default class Register extends Component {
         if (detail.encryptedData) {
             this.setState({openLoad: true});
             remotePost(api.resolvePhone, data, (res) => {
-                console.log(res);
                 this.setState({phoneNumber: res.data, openLoad: false});
             });
         }

@@ -9,6 +9,7 @@ export default {
     memInfo: remote + '/member/info',
     resolvePhone: remote + '/resolve/phone',
     web: remote + '/web/page',
+    review: remote + '/web/review',
     wxPay: remote + '/pay/order',
     validFace: remote + '/validate/face',
     wxPayQuery: remote + '/pay/query',
@@ -17,10 +18,19 @@ export default {
     bookPrice: remote + '/book/price',
     orderBooking: remote + '/order/booking',
     orderRefund: remote + '/order/refund',
+    swiperLoad: remote + '/swipe/load',
+    activityFind: remote + '/platform/activity/find',
+    addLike: remote + '/operate/like',
+    orderTicket: remote + '/order/ticket',
     bookPayed: remote + '/mine/order/list/payed',
     bookUsed: remote + '/mine/order/list/used',
     bookRefund: remote + '/mine/order/list/refund',
     bookDetail: remote + '/mine/order/detail',
+    myTicket: remote + '/mine/ticket/find',
+    payList: remote + '/mine/pay/find',
+    playerList: remote + '/star/player/list',
+    coachList: remote + '/star/coach/list',
+    qrImage: remote + '/mine/qr/image',
 }
 
 export function remoteGet(url, sucFn) {
