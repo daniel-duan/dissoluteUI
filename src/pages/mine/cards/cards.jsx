@@ -8,6 +8,7 @@ import DzLoading from "../../../components/loading/DzLoading";
 import {get} from "../../../store/global";
 import api, {remotePost} from "../../../store/api";
 import {memGet} from "../../../store/menber";
+import CheckMember from "../../../components/check/CheckMember";
 
 function CardItem(props) {
     const item = props.item;
@@ -66,6 +67,7 @@ export default class Cards extends Component {
     render() {
         return (
             <View class='app-content'>
+                <CheckMember/>
                 <TopBar title='我的卡券'/>
                 <DzScrollView top={this.navHeight} indicator={this.state.indicator} bottomFn={this.scrollBottom}>
                     {this.state.dataList.map((item, idx) => <CardItem key={idx} item={item}/>)}

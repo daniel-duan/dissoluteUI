@@ -125,6 +125,7 @@ export default class Register extends Component {
         const mem = this.member;
         const region = mem.memRegion ? mem.memRegion.split(' ') : ['宁夏回族自治区', '银川市', ''];
         state.realName = mem.realName;
+        state.phoneNumber = mem.phoneNumber;
         state.gender = mem.gender;
         state.faceImage = mem.faceImage;
         state.memType = mem.memType;

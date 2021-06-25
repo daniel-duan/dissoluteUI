@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Taro from "@tarojs/taro";
+import Taro, {eventCenter, getCurrentInstance} from "@tarojs/taro";
 import {Button, Image, Picker, Text, View} from '@tarojs/components';
 import {AtModal, AtModalAction, AtModalContent, AtModalHeader} from "taro-ui";
 
@@ -12,6 +12,7 @@ import {dateFormat, dateTrans} from '../../util/utils';
 import api, {remoteGet, remotePost} from "../../store/api";
 import {cardType, memGet} from "../../store/menber";
 import wxPay from "../../util/wxPay";
+import CheckMember from "../../components/check/CheckMember";
 
 const timePeriod = ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00'];
 
@@ -59,11 +60,11 @@ function GetSite(props) {
 function timeCls(type) {
     switch (type) {
         case 1:
-            return 'booked';
+            return 'book-now';
         case 2:
             return 'booked';
         case 3:
-            return 'book-now';
+            return 'booked';
         default:
             return 'available';
     }
@@ -138,6 +139,9 @@ export default class Book extends Component {
         this.validate = this.validate.bind(this);
         this.submit = this.submit.bind(this);
         this.wxPay = this.wxPay.bind(this);
+
+        const eventId = getCurrentInstance().router.onShow;
+        eventCenter.on(eventId, () => this.setState(Object.assign(this.originState, {openLoad: false})));
     }
 
     componentDidMount() {
@@ -171,12 +175,15 @@ export default class Book extends Component {
 
     calculate(state) {
         if (state.siteNumber !== '' && state.bookDate !== '') {
+            this.setState({openLoad: true});
             const url = api.bookData + `?bookDate=${state.bookDate}&siteNumber=${state.siteNumber}`;
             remoteGet(url, (res) => {
-                if (res.data !== null) {
-
+                const rd = res.data;
+                if (rd !== null) {
+                    this.setState({openLoad: false, booked: [rd.period1, rd.period2, rd.period3, rd.period4, rd.period5, rd.period6, rd.period7]});
                 } else {
-                    this.setState({booked: [0, 0, 0, 0, 0, 0, 0]});
+                    this.setState({openLoad: false, booked: []});
+                    Taro.showToast({title: '无法读取已订场信息，请稍后再试', icon: 'none', duration: 1500});
                 }
             })
         }
@@ -185,17 +192,17 @@ export default class Book extends Component {
     //{'1':'已预订','2':'已锁定', '3':'当前已选'}
     timeItem(idx) {
         const status = this.state.booked[idx];
-        if (status === 1 || status === 2) return;
+        if (status === 2 || status === 3) return;
 
-        if (status === 3) {
+        if (status === 1) {
             this.state.booked[idx] = 0;
         } else {
-            this.state.booked[idx] = 3;
+            this.state.booked[idx] = 1;
         }
 
         let hour = 0, price = 0;
         this.state.booked.forEach((st, idx) => {
-            if (st === 3) {
+            if (st === 1) {
                 price += this.state.priceList[idx];
                 hour += 2;
             }
@@ -216,7 +223,7 @@ export default class Book extends Component {
         const segment = [];
         let price = 0;
         this.state.booked.forEach((st, idx) => {
-            if (st === 3) {
+            if (st === 1) {
                 segment.push(idx);
                 price += this.state.priceList[idx];
             }
@@ -287,7 +294,7 @@ export default class Book extends Component {
     render() {
         return (
             <View class='app-content'>
-                {/*<CheckMember/>*/}
+                <CheckMember/>
                 <TopBar nav={false} title='场馆预定'/>
                 <View className='auto-scroll-view' style={{top: this.navHeight}}>
                     <View className='book-map'>

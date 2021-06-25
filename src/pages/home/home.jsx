@@ -32,43 +32,43 @@ function FlowBox() {
     return (
         <View className='dz-flow-box'>
             {/*--left--*/}
-            <View className='item' style={{left: 0, top: 0, height: ih * 2}}>
+            <View className='item row-slideUp1' style={{left: 0, top: 0, height: ih * 2}}>
                 <View className='flow-item'>
                     <dzBox border={false} onClick={() => Taro.navigateTo({url: '/pages/entrance/entrance'})}>入场</dzBox>
                 </View>
             </View>
-            <View className='item' style={{left: 0, top: ih * 2, height: ih}}>
+            <View className='item row-slideUp2' style={{left: 0, top: ih * 2, height: ih}}>
                 <View className='flow-item' style={{backgroundPosition: `0 ${ih * -2}px`}}>
                     <dzBox border={false} onClick={() => Taro.navigateTo({url: '/pages/web/review'})}>球馆全景</dzBox>
                 </View>
             </View>
-            <View className='item' style={{left: 0, top: ih * 3, height: ih}}>
+            <View className='item row-slideUp3' style={{left: 0, top: ih * 3, height: ih}}>
                 <View className='flow-item' style={{backgroundPosition: `0 ${ih * -3}px`}}>
                     <dzBox border={false} onClick={() => Taro.navigateTo({url: '/pages/coach/coach'})}>教练风采</dzBox>
                 </View>
             </View>
-            <View className='item' style={{left: 0, top: ih * 4, height: ih * 2}}>
+            <View className='item row-slideUp4' style={{left: 0, top: ih * 4, height: ih * 2}}>
                 <View className='flow-item' style={{backgroundPosition: `0 ${ih * -4}px`}}>
                     <dzBox border={false} onClick={() => Taro.navigateTo({url: '/pages/us/us'})}>关于我们</dzBox>
                 </View>
             </View>
             {/*--right--*/}
-            <View className='item' style={{right: 0, top: 0, height: ih}}>
+            <View className='item row-slideUp1' style={{right: 0, top: 0, height: ih}}>
                 <View className='flow-item' style={{backgroundPosition: `right 0`}}>
                     <dzBox border={false} onClick={() => Taro.navigateTo({url: '/pages/mine/cards/cards'})}>我的卡券</dzBox>
                 </View>
             </View>
-            <View className='item' style={{right: 0, top: ih, height: ih * 2}}>
+            <View className='item row-slideUp2' style={{right: 0, top: ih, height: ih * 2}}>
                 <View className='flow-item' style={{backgroundPosition: `right ${ih * -1}px`}}>
                     <dzBox border={false} onClick={() => Taro.navigateTo({url: '/pages/recharge/recharge'})}>充值</dzBox>
                 </View>
             </View>
-            <View className='item' style={{right: 0, top: ih * 3, height: ih}}>
+            <View className='item row-slideUp3' style={{right: 0, top: ih * 3, height: ih}}>
                 <View className='flow-item' style={{backgroundPosition: `right ${ih * -3}px`}}>
                     <dzBox border={false} onClick={() => Taro.navigateTo({url: '/pages/player/player'})}>明星球员</dzBox>
                 </View>
             </View>
-            <View className='item' style={{right: 0, top: ih * 4, height: ih}}>
+            <View className='item row-slideUp4' style={{right: 0, top: ih * 4, height: ih}}>
                 <View className='flow-item' style={{backgroundPosition: `right ${ih * -4}px`}}>
                     <dzBox border={false} onClick={() => Taro.navigateTo({url: '/pages/mine/bookList/bookList'})}>我的预定</dzBox>
                 </View>

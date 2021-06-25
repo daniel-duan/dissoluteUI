@@ -27,15 +27,13 @@ export function cacheUserInfo(userInfo) {
 }
 
 //0 普通卡 1银卡 2金卡
-//会员类型 =|{'1':'个人普通会员', '2':'团体普通会员', '3':'个人银卡会员', '4':'个人金卡会员', '5':'团体银卡会员', '6':'团体金卡会员', '99':'超级管理员'}
+//{'0':'个人普通会员','1':'个人VIP会员', '2':'个人银卡会员', '3':'个人金卡会员', '10':'团体普通会员', '11':'团体VIP会员', '12':'团体银卡会员', '13':'团体金卡会员', '99':'超级管理员'}
 export function cardType() {
     const type = member.get('memType');
-    if (type === 3 || type === 5) {
+    if (type === 2 || type === 12) {
         return 1;
-    } else if (type === 4 || type === 6) {
+    } else if (type === 3 || type === 13) {
         return 2;
-    } else if (type === 99) {
-        return 99;
     }
     return 0;
 }
@@ -44,22 +42,28 @@ export function isMember() {
     return member.get('registered') === true;
 }
 
-//{'1':'个人普通会员', '2':'团体普通会员', '3':'个人银卡会员', '4':'个人金卡会员', '5':'团体银卡会员', '6':'团体金卡会员'}
+//{'0':'个人普通会员','1':'个人VIP会员', '2':'个人银卡会员', '3':'个人金卡会员', '10':'团体普通会员', '11':'团体VIP会员', '12':'团体银卡会员', '13':'团体金卡会员', '99':'超级管理员'}
 export function getMemType() {
     const memType = member.get('memType');
     switch (memType) {
-        case 1:
+        case 0:
             return '个人普通会员';
+        case 1:
+            return '个人VIP会员';
         case 2:
-            return '团体普通会员';
-        case 3:
             return '个人银卡会员';
-        case 4:
+        case 3:
             return '个人金卡会员';
-        case 5:
+        case 10:
+            return '团体普通会员';
+        case 11:
+            return '团体VIP会员';
+        case 12:
             return '团体银卡会员';
-        case 6:
+        case 13:
             return '团体金卡会员';
+        case 99:
+            return '超级管理员';
         default:
             return '';
     }

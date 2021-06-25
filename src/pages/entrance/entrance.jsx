@@ -10,6 +10,7 @@ import {get} from "../../store/global";
 import api, {remoteGet} from "../../store/api";
 import {cardType, memGet} from "../../store/menber";
 import wxPay from "../../util/wxPay";
+import CheckMember from "../../components/check/CheckMember";
 
 //{'1':'固定日期','2':'日卡','3':'7天周卡','4':'30天月卡','6':'365天年卡'}
 function getPeriod(card) {
@@ -126,6 +127,7 @@ export default class Entrance extends Component {
     render() {
         return (
             <View class='app-content'>
+                <CheckMember/>
                 <TopBar title='入场券'/>
                 <View className='auto-scroll-view' style={{top: this.navHeight}}>
                     <View className='entrance-head'>

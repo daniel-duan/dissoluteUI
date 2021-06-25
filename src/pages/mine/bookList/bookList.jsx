@@ -9,6 +9,7 @@ import {get} from "../../../store/global";
 import DzLoading from "../../../components/loading/DzLoading";
 import api, {remoteGet} from "../../../store/api";
 import {memGet} from "../../../store/menber";
+import CheckMember from "../../../components/check/CheckMember";
 
 function BookItem(props) {
     const item = props.item;
@@ -29,7 +30,7 @@ function OtherItem(props) {
     return (
         <View className='tab-item'>
             <View className='content'>
-                <View className='header'>{'2021年6月20日'}</View>
+                <View className='header'>{item.bookDate}</View>
                 <View className='line'><View className='head'>预定时间段</View><View className='body'>{item.bookPeriod}</View></View>
                 <View className='line'><View className='head'>已支付金额</View><View className='body'>{item.payAmount} 元</View></View>
                 {item.bookStatus === 3 && <View className='line'><View className='head'>已退款金额</View><View className='body'>{item.refundAmount} 元</View></View>}
@@ -109,6 +110,7 @@ export default class BookList extends Component {
     render() {
         return (
             <View className='app-content'>
+                <CheckMember/>
                 <TopBar title='我的预定'/>
                 <View className='auto-scroll-view' style={{top: this.navHeight}}>
                     <AtTabs current={this.state.current} tabList={this.tabList} onClick={this.switchTab}>

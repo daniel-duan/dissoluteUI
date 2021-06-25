@@ -1,7 +1,7 @@
 import Taro from "@tarojs/taro";
 
-// const remote = 'https://fuyuanshan.com/api';
 const remote = 'http://localhost:8080/api';
+// const remote = 'https://lingpaobasketball.com/api';
 export default {
     login: remote + '/login',
     memSave: remote + '/member/save',
@@ -16,21 +16,24 @@ export default {
     enTicket: remote + '/entrance/ticket/find',
     bookData: remote + '/book/data',
     bookPrice: remote + '/book/price',
-    orderBooking: remote + '/order/booking',
-    orderRefund: remote + '/order/refund',
+    orderBooking: remote + '/book/order',
+    orderRefund: remote + '/book/refund',
     swiperLoad: remote + '/swipe/load',
     activityFind: remote + '/platform/activity/find',
     addLike: remote + '/operate/like',
-    orderTicket: remote + '/order/ticket',
+    orderTicket: remote + '/entrance/ticket/order',
     bookPayed: remote + '/mine/order/list/payed',
     bookUsed: remote + '/mine/order/list/used',
     bookRefund: remote + '/mine/order/list/refund',
     bookDetail: remote + '/mine/order/detail',
+    bookInfo: remote + '/book/info',
+    bookJoin: remote + '/book/join',
+    delJoin: remote + '/book/delete/join',
     myTicket: remote + '/mine/ticket/find',
     payList: remote + '/mine/pay/find',
     playerList: remote + '/star/player/list',
     coachList: remote + '/star/coach/list',
-    qrImage: remote + '/mine/qr/image',
+    qrImage: remote + '/mine/qr/image'
 }
 
 export function remoteGet(url, sucFn) {

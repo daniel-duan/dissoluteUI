@@ -8,15 +8,30 @@ import DzScrollView from "../../../components/view/DzScrollView";
 import api, {remotePost} from "../../../store/api";
 import {memGet} from "../../../store/menber";
 import {get} from "../../../store/global";
+import CheckMember from "../../../components/check/CheckMember";
+
+//1':'入场券微信支付','2':'订场券微信支付','3':'充值'
+function orderType(type) {
+    switch (type) {
+        case 1:
+            return "入场券微信支付";
+        case 2:
+            return "订场券微信支付";
+        case 3:
+            return "账户充值";
+        default:
+            return "";
+    }
+}
 
 function OrderItem(props) {
     const item = props.item;
     return (
         <View className='tab-item'>
             <View className='content'>
-                <View className='header'>{item.ticketName}</View>
-                <View className='line'><View className='head'>入场时间</View><View className='body'>{item.startTime}</View></View>
-                <View className='line'><View className='head'>出场时间</View><View className='body'>{item.endTime}</View></View>
+                <View className='header'>{orderType(item.payType)}</View>
+                <View className='line'><View className='head'>账单金额</View><View className='body'>{item.amount}</View></View>
+                <View className='line'><View className='head'>账单日期</View><View className='body'>{item.createDate}</View></View>
             </View>
         </View>
     );
@@ -66,6 +81,7 @@ export default class Order extends Component {
     render() {
         return (
             <View class='app-content'>
+                <CheckMember/>
                 <TopBar title='账单记录'/>
                 <DzScrollView top={this.navHeight} indicator={this.state.indicator} bottomFn={this.scrollBottom}>
                     {this.state.dataList.map((item, idx) => <OrderItem key={idx} item={item}/>)}

@@ -7,6 +7,9 @@ import './recharge.scss'
 import TopBar from "../../components/topBar/TopBar";
 import {get} from "../../store/global";
 import DzLoading from "../../components/loading/DzLoading";
+import {getMemType, memGet} from "../../store/menber";
+import wxPay from "../../util/wxPay";
+import CheckMember from "../../components/check/CheckMember";
 
 export default class Recharge extends Component {
     constructor(props) {
@@ -17,7 +20,7 @@ export default class Recharge extends Component {
         this.state = {
             openLoad: false,
             showModel: false,
-            amtIdx: 0,
+            amtIdx: -1,
             amount: '',
             amtList: ['200', '2000', '3000', '5000', '10000']
         };
@@ -59,11 +62,20 @@ export default class Recharge extends Component {
 
     submit() {
         this.setState({showModel: false, openLoad: true});
+        const payData = {
+            memId: memGet('memId'),
+            amount: this.state.amount,
+            payType: 3
+        };
+        wxPay(payData, () => this.setState({openLoad: false}), () => {
+            Taro.redirectTo({url: '/pages/mine/balance/balance'});
+        });
     }
 
     render() {
         return (
             <View class='app-content'>
+                <CheckMember/>
                 <TopBar title='账户充值'/>
                 <View className='auto-scroll-view' style={{top: this.navHeight}}>
                     <View className='recharge-hold'>
@@ -120,7 +132,7 @@ export default class Recharge extends Component {
                     <AtModalHeader>充值信息确认</AtModalHeader>
                     <AtModalContent>
                         <View className='modal-line'><View className='name'>充值金额</View><View className='info'>{this.state.amount}</View></View>
-                        <View className='modal-line'><View className='name'>当前会员类型</View><View className='info'>sadfasdsfsf</View></View>
+                        <View className='modal-line'><View className='name'>当前会员类型</View><View className='info'>{getMemType()}</View></View>
                     </AtModalContent>
                     <AtModalAction>
                         <Button onClick={() => this.setState({showModel: false})}>取消</Button>

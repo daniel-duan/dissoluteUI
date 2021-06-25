@@ -51,9 +51,14 @@ export default class BookDetail extends Component {
         this.toDelete = this.toDelete.bind(this);
         this.deleteItem = this.deleteItem.bind(this);
         this.refund = this.refund.bind(this);
+        this.loadData = this.loadData.bind(this);
     }
 
     componentDidMount() {
+        this.loadData();
+    }
+
+    loadData() {
         remoteGet(api.bookDetail + `?bhkId=${this.bhkId}`, (res) => {
             this.setState({detail: res.data, openLoad: false});
         });
@@ -62,8 +67,8 @@ export default class BookDetail extends Component {
     onShareAppMessage() {
         return {
             title: `${this.state.detail.realName}邀请您加入比赛（${this.state.detail.bookDate}）`,
-            path: '/pages/join/join?bookId=123',
-            imageUrl: 'http://39.106.4.226:9000/wechat/lingpao_share.jpg'
+            path: '/pages/screen/screen?forward=YES&type=JOIN&bhkId=' + this.bhkId,
+            imageUrl: 'https://lingpaobasketball.com/file/wechat/lingpao_share.jpg'
         };
     }
 
@@ -71,7 +76,7 @@ export default class BookDetail extends Component {
         this.setState({refundOpen: false, openLoad: true});
         remoteGet(api.orderRefund + `?memId=${this.me}&bhkId=${this.bhkId}`, (res) => {
             if (res.data === 1) {
-                Taro.navigateTo({url: '/pages/mine/bookList/bookList?current=2'})
+                Taro.redirectTo({url: '/pages/mine/bookList/bookList?current=2'})
             } else {
                 Taro.showToast({title: '退款失败，无效订单或者已超过退款时间', icon: 'none', duration: 2000});
                 this.setState({openLoad: false});
@@ -84,7 +89,11 @@ export default class BookDetail extends Component {
     }
 
     deleteItem() {
-
+        this.setState({openLoad: true, delOpen: false});
+        remoteGet(api.delJoin + `?tckId=${this.state.delItem}`, () => {
+            Taro.showToast({title: '删除用户成功', icon: 'none', duration: 1200});
+            this.loadData();
+        });
     }
 
     render() {
@@ -120,7 +129,7 @@ export default class BookDetail extends Component {
                         {this.state.detail.ticketList.map(item => <Joined me={this.me} item={item} toDelete={this.toDelete}/>)}
                     </View>
                 </View>
-                <AtModal isOpened={this.state.delOpen} title='删除数据确认' cancelText='取消' confirmText='确认删除' content='您确定要删除吗？' onCancel={() => this.setState({delOpen: false})} onConfirm={this.deleteItem}/>
+                <AtModal isOpened={this.state.delOpen} title='删除数据确认' cancelText='取消' confirmText='确认删除' content='您确定要删除该成员吗？' onCancel={() => this.setState({delOpen: false})} onConfirm={this.deleteItem}/>
                 <AtModal isOpened={this.state.refundOpen} title='退款确认' cancelText='取消' confirmText='确认退款' content='比赛开始前1小时之前可申请退款。退款将返还您一半预定金额，您确定要退款吗？' onCancel={() => this.setState({refundOpen: false})} onConfirm={this.refund}/>
                 <DzLoading open={this.state.openLoad}/>
             </View>

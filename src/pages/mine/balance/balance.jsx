@@ -9,6 +9,7 @@ import api, {remoteGet} from "../../../store/api";
 import {memGet} from "../../../store/menber";
 import DzLoading from "../../../components/loading/DzLoading";
 import Taro from "@tarojs/taro";
+import CheckMember from "../../../components/check/CheckMember";
 
 export default class Balance extends Component {
     constructor(props) {
@@ -32,6 +33,7 @@ export default class Balance extends Component {
     render() {
         return (
             <View class='app-content'>
+                <CheckMember/>
                 <TopBar title='我的账户'/>
                 <View className='balance-detail' style={{paddingTop: this.navHeight}}>
                     <View className='amount'><View className='head'>账户余额</View><View className='body'>{this.state.menBalance}</View></View>

@@ -17,21 +17,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
-    &::after {
-        content: " ";
-        position: absolute;
-        z-index: -1;
-        top: 0;
-        left: 0;
-        box-sizing: border-box;
-        width: 200%;
-        height: 200%;
-        border: 1px solid #dddddd;
-        border-radius: 36px;
-        transform: scale(.5);
-        transform-origin: 0 0;
-    }
+    border: 1PX solid #dddddd;
+    border-radius: 36px;
 
     .name {
         font-size: 36px;

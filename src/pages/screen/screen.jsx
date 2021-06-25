@@ -16,6 +16,7 @@ export default class Screen extends React.Component {
             time: false
         };
 
+        this.initParam = Taro.getCurrentInstance().router.params;
         this.logon = this.logon.bind(this);
         this.navigate = this.navigate.bind(this);
     }
@@ -61,8 +62,21 @@ export default class Screen extends React.Component {
 
     navigate() {
         if (this.synData.login === true && this.synData.time === true) {
-            // Taro.switchTab({url: '/pages/home/home'});
-            Taro.switchTab({url: '/pages/mine/mine'});
+            console.log(this.initParam);
+            if (this.initParam.forward === "YES") {
+                switch (this.initParam.type) {
+                    case "JOIN":
+                        Taro.redirectTo({url: '/pages/join/join?bhkId=' + this.initParam.bhkId});
+                        break;
+                    default:
+                        Taro.switchTab({url: '/pages/home/home'});
+                        break;
+                }
+            } else {
+                Taro.switchTab({url: '/pages/home/home'});
+                // Taro.switchTab({url: '/pages/mine/mine'});
+                // Taro.navigateTo({url: '/pages/join/join?bhkId=16'});
+            }
         }
     }
 
