@@ -62,7 +62,6 @@ export default class Screen extends React.Component {
 
     navigate() {
         if (this.synData.login === true && this.synData.time === true) {
-            console.log(this.initParam);
             if (this.initParam.forward === "YES") {
                 switch (this.initParam.type) {
                     case "JOIN":

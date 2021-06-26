@@ -1,7 +1,7 @@
 import Taro from "@tarojs/taro";
 
-const remote = 'http://localhost:8080/api';
-// const remote = 'https://lingpaobasketball.com/api';
+// const remote = 'http://localhost:8080/api';
+const remote = 'https://lingpaobasketball.com/api';
 export default {
     login: remote + '/login',
     memSave: remote + '/member/save',

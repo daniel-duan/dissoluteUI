@@ -135,7 +135,7 @@ export default class Entrance extends Component {
                             <View className={this.state.step >= 1 ? 'dz-item active' : 'dz-item'}><Text>1</Text><View className='tx'>准备入场</View></View>
                             <View className={this.state.step >= 2 ? 'dz-item active' : 'dz-item'}><Text>2</Text><View className='tx'>选择入场券</View></View>
                             <View className={this.state.step >= 3 ? 'dz-item active' : 'dz-item'}><Text>3</Text><View className='tx'>购买</View></View>
-                            <View className={this.state.step >= 4 ? 'dz-item active' : 'dz-item'}><Text>3</Text><View className='tx'>人脸识别入场</View></View>
+                            <View className={this.state.step >= 4 ? 'dz-item active' : 'dz-item'}><Text>4</Text><View className='tx'>人脸识别入场</View></View>
                         </View>
                     </View>
                     <View className='entrance-tips'>

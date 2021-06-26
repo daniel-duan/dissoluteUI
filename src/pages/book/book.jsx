@@ -59,8 +59,10 @@ function GetSite(props) {
 
 function timeCls(type) {
     switch (type) {
-        case 1:
+        case 10:
             return 'book-now';
+        case 1:
+            return 'booked';
         case 2:
             return 'booked';
         case 3:
@@ -72,7 +74,6 @@ function timeCls(type) {
 
 function TimeSegment(props) {
     if (props.booked.length === 0) return <View className='time'/>;
-
     return (
         <View className='time'>
             <View className='time-item'>
@@ -192,17 +193,17 @@ export default class Book extends Component {
     //{'1':'已预订','2':'已锁定', '3':'当前已选'}
     timeItem(idx) {
         const status = this.state.booked[idx];
-        if (status === 2 || status === 3) return;
+        if (status === 1 || status === 2 || status === 3) return;
 
-        if (status === 1) {
+        if (status === 10) {
             this.state.booked[idx] = 0;
         } else {
-            this.state.booked[idx] = 1;
+            this.state.booked[idx] = 10;
         }
 
         let hour = 0, price = 0;
         this.state.booked.forEach((st, idx) => {
-            if (st === 1) {
+            if (st === 10) {
                 price += this.state.priceList[idx];
                 hour += 2;
             }
@@ -223,7 +224,7 @@ export default class Book extends Component {
         const segment = [];
         let price = 0;
         this.state.booked.forEach((st, idx) => {
-            if (st === 1) {
+            if (st === 10) {
                 segment.push(idx);
                 price += this.state.priceList[idx];
             }
