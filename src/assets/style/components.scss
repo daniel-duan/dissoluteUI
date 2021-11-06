@@ -244,6 +244,25 @@
             padding: 50px;
         }
 
+        .check-btn-group {
+            display: flex;
+
+            button {
+                flex: 1;
+                border-radius: 0;
+                border: none;
+                box-sizing: border-box;
+
+                &::after {
+                    content: none;
+                }
+            }
+
+            button:first-child {
+                border-right: 1PX solid white;
+            }
+        }
+
         .btn {
             border-radius: 0;
             border: none;

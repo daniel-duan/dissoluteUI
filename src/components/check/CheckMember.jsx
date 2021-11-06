@@ -57,7 +57,10 @@ export default class CheckMember extends React.Component {
             <View className='dz-checking'>
                 <View className='check-cnt'>
                     <View className='text'>您还不是会员，点击注册领跑体育，成为我们的尊贵会员。</View>
-                    <Button className='btn' openType='getUserInfo' onClick={this.getUserInfo}>注册领跑体育</Button>
+                    <View className='check-btn-group'>
+                        <Button className='btn' onClick={() => Taro.switchTab({url: '/pages/home/home'})}>退出</Button>
+                        <Button className='btn' openType='getUserInfo' onClick={this.getUserInfo}>注册领跑体育</Button>
+                    </View>
                 </View>
             </View>
         )

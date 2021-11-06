@@ -103,6 +103,14 @@ export default class Home extends Component {
         }
     }
 
+    onShareAppMessage() {
+        return {
+            title: `领跑体育`,
+            path: '/pages/screen/screen',
+            imageUrl: 'https://lingpaobasketball.com/file/wechat/lingpao_share.jpg'
+        };
+    }
+
     render() {
         return (
             <View className='app-content'>

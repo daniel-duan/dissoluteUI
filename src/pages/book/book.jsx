@@ -152,6 +152,14 @@ export default class Book extends Component {
         })
     }
 
+    onShareAppMessage() {
+        return {
+            title: `领跑体育`,
+            path: '/pages/screen/screen',
+            imageUrl: 'https://lingpaobasketball.com/file/wechat/lingpao_share.jpg'
+        };
+    }
+
     mapClick(idx) {
         if (this.state.siteNumber !== idx) {
             const snp = this.priceList.find(item => item.siteKey === idx);

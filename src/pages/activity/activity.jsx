@@ -68,6 +68,14 @@ export default class Activity extends Component {
         this.loadData();
     };
 
+    onShareAppMessage() {
+        return {
+            title: `领跑体育`,
+            path: '/pages/screen/screen',
+            imageUrl: 'https://lingpaobasketball.com/file/wechat/lingpao_share.jpg'
+        };
+    }
+
     itemClick(paId) {
         Taro.navigateTo({url: '/pages/web/webView?type=1&id=' + paId});
     }
