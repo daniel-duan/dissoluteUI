@@ -1,7 +1,7 @@
 import Taro from "@tarojs/taro";
 
-// const remote = 'http://localhost:8080/api';
-const remote = 'https://lingpaobasketball.com/api';
+const remote = 'http://localhost:8080/api';
+// const remote = 'https://lanqiuguanli.com/api';
 export default {
     login: remote + '/login',
     memSave: remote + '/member/save',
@@ -15,7 +15,6 @@ export default {
     wxPayQuery: remote + '/pay/query',
     enTicket: remote + '/entrance/ticket/find',
     bookData: remote + '/book/data',
-    bookPrice: remote + '/book/price',
     orderBooking: remote + '/book/order',
     orderRefund: remote + '/book/refund',
     swiperLoad: remote + '/swipe/load',
@@ -33,25 +32,38 @@ export default {
     payList: remote + '/mine/pay/find',
     playerList: remote + '/star/player/list',
     coachList: remote + '/star/coach/list',
-    qrImage: remote + '/mine/qr/image'
+    qrImage: remote + '/mine/qr/image',
+    rechargeList: remote + '/recharge/list',
 }
 
-export function remoteGet(url, sucFn) {
+export function remoteGet(url, sucFn, errFn) {
     Taro.request({
         url: url,
         success: suc => {
-            sucFn(suc.data);
+            const result = suc.data;
+            if (result.success === false) {
+                Taro.showToast({title: result.msg, icon: 'none', duration: 2000});
+                if (errFn !== undefined) errFn(result);
+            } else {
+                sucFn(result);
+            }
         }
     })
 }
 
-export function remotePost(url, data, sucFn) {
+export function remotePost(url, data, sucFn, errFn) {
     Taro.request({
         url: url,
         method: "POST",
         data: data,
         success: suc => {
-            sucFn(suc.data);
+            const result = suc.data;
+            if (result.success === false) {
+                Taro.showToast({title: result.msg, icon: 'none', duration: 2000});
+                if (errFn !== undefined) errFn(result);
+            } else {
+                sucFn(result);
+            }
         }
     })
 }

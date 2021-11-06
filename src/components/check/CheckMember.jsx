@@ -39,9 +39,8 @@ export default class CheckMember extends React.Component {
     }
 
     getUserInfo() {
-        const that = this;
-        wx.getUserProfile({
-            desc: '领跑体育需要完善您的会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+        wx.getUserInfo({
+            desc: '陕果篮球中心需要完善您的会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
             success: (res) => {
                 cacheUserInfo(res.userInfo);
                 Taro.navigateTo({url: '/pages/register/register'})
@@ -56,8 +55,11 @@ export default class CheckMember extends React.Component {
         return (
             <View className='dz-checking'>
                 <View className='check-cnt'>
-                    <View className='text'>您还不是会员，点击注册领跑体育，成为我们的尊贵会员。</View>
-                    <Button className='btn' openType='getUserInfo' onClick={this.getUserInfo}>注册领跑体育</Button>
+                    <View className='text'>您还不是会员，点击注册会员，成为我们的尊贵会员。</View>
+                    <View className='reg-btn-group'>
+                        <Button className='btn' onClick={() => Taro.switchTab({url: '/pages/home/home'})}>我在想想</Button>
+                        <Button className='btn' openType='getUserInfo' onClick={this.getUserInfo}>注册会员</Button>
+                    </View>
                 </View>
             </View>
         )

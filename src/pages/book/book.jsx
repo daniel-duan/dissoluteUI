@@ -7,7 +7,7 @@ import './book.scss'
 import {get} from "../../store/global";
 import TopBar from "../../components/topBar/TopBar";
 import DzLoading from "../../components/loading/DzLoading";
-import map from '../../assets/image/map.png';
+import map from '../../assets/image/map.jpg';
 import {dateFormat, dateTrans} from '../../util/utils';
 import api, {remoteGet, remotePost} from "../../store/api";
 import {cardType, memGet} from "../../store/menber";
@@ -23,36 +23,32 @@ function getTimePeriod(pes) {
     return timePeriod[first] + '-' + timePeriod[last + 1];
 }
 
-function getPrice(ct, snp) {
-    switch (ct) {
-        case 1:
-            return snp.sliverPrice;
-        case 2:
-            return snp.goldPrice;
-        default:
-            return snp.originPrice;
-    }
-}
-
 function GetSite(props) {
+    //全场
     if (props.siteType === 1) {
         return (
             <React.Fragment>
                 <View className={props.siteNumber === 'S1' ? 'site1 active' : 'site1'} onClick={() => props.mapClick('S1')}/>
                 <View className={props.siteNumber === 'S2' ? 'site2 active' : 'site2'} onClick={() => props.mapClick('S2')}/>
+                <View className={props.siteNumber === 'S3' ? 'site3 active' : 'site3'} onClick={() => props.mapClick('S3')}/>
+                <View className={props.siteNumber === 'S4' ? 'site4 active' : 'site4'} onClick={() => props.mapClick('S4')}/>
+                <View className={props.siteNumber === 'S5' ? 'site5 active' : 'site5'} onClick={() => props.mapClick('S5')}/>
             </React.Fragment>
         );
     }
+    //半场
     return (
         <React.Fragment>
-            <View className={props.siteNumber === 'H1' ? 'seg1 active' : 'seg1'} onClick={() => props.mapClick('H1')}/>
-            <View className={props.siteNumber === 'H2' ? 'seg2 active' : 'seg2'} onClick={() => props.mapClick('H2')}/>
-            <View className={props.siteNumber === 'H3' ? 'seg3 active' : 'seg3'} onClick={() => props.mapClick('H3')}/>
-            <View className={props.siteNumber === 'H4' ? 'seg4 active' : 'seg4'} onClick={() => props.mapClick('H4')}/>
-            <View className={props.siteNumber === 'H5' ? 'seg5 active' : 'seg5'} onClick={() => props.mapClick('H5')}/>
-            <View className={props.siteNumber === 'H6' ? 'seg6 active' : 'seg6'} onClick={() => props.mapClick('H6')}/>
-            <View className={props.siteNumber === 'H7' ? 'seg7 active' : 'seg7'} onClick={() => props.mapClick('H7')}/>
-            <View className={props.siteNumber === 'H8' ? 'seg8 active' : 'seg8'} onClick={() => props.mapClick('H8')}/>
+            <View className={props.siteNumber === 'S1H1' ? 'seg1 active' : 'seg1'} onClick={() => props.mapClick('S1H1')}/>
+            <View className={props.siteNumber === 'S1H2' ? 'seg2 active' : 'seg2'} onClick={() => props.mapClick('S1H2')}/>
+            <View className={props.siteNumber === 'S2H1' ? 'seg3 active' : 'seg3'} onClick={() => props.mapClick('S2H1')}/>
+            <View className={props.siteNumber === 'S2H2' ? 'seg4 active' : 'seg4'} onClick={() => props.mapClick('S2H2')}/>
+            <View className={props.siteNumber === 'S3H1' ? 'seg5 active' : 'seg5'} onClick={() => props.mapClick('S3H1')}/>
+            <View className={props.siteNumber === 'S3H2' ? 'seg6 active' : 'seg6'} onClick={() => props.mapClick('S3H2')}/>
+            <View className={props.siteNumber === 'S4H1' ? 'seg7 active' : 'seg7'} onClick={() => props.mapClick('S4H1')}/>
+            <View className={props.siteNumber === 'S4H2' ? 'seg8 active' : 'seg8'} onClick={() => props.mapClick('S4H2')}/>
+            <View className={props.siteNumber === 'S5H1' ? 'seg9 active' : 'seg9'} onClick={() => props.mapClick('S5H1')}/>
+            <View className={props.siteNumber === 'S5H2' ? 'seg10 active' : 'seg10'} onClick={() => props.mapClick('S5H2')}/>
         </React.Fragment>
     );
 }
@@ -106,7 +102,10 @@ export default class Book extends Component {
             showModel: false,
             payModel: false,
             siteNumber: '',
+            sitePrice: 0,
+            bookDiscount: 1,
             totalAmt: 0,
+            promoAmt: 0,
             totalHour: 0,
             bookDate: '',
             booked: [],
@@ -114,14 +113,12 @@ export default class Book extends Component {
             siteName: '',
             siteType: 1,//1 全场 2半场
             dateText: '',
-            priceList: [],
-            originTotal: 0,
             bhkId: 0
         };
         this.state = Object.assign({}, this.originState);
 
         this.cardType = cardType();
-        this.dateRange = [];
+        this.dateRange = [];//默认七天内
         this.timeSeg = ['08:00-10:00', '10:00-12:00', '12:00-14:00', '14:00-16:00', '16:00-18:00', '18:00-20:00', '20:00-22:00'];
         let now = new Date();
         this.dateRange.push(dateFormat(now));
@@ -136,7 +133,7 @@ export default class Book extends Component {
         this.dateClick = this.dateClick.bind(this);
         this.siteTypeClick = this.siteTypeClick.bind(this);
         this.timeItem = this.timeItem.bind(this);
-        this.calculate = this.calculate.bind(this);
+        this.loadSiteData = this.loadSiteData.bind(this);
         this.validate = this.validate.bind(this);
         this.submit = this.submit.bind(this);
         this.wxPay = this.wxPay.bind(this);
@@ -145,52 +142,41 @@ export default class Book extends Component {
         eventCenter.on(eventId, () => this.setState(Object.assign(this.originState, {openLoad: false})));
     }
 
-    componentDidMount() {
-        remoteGet(api.bookPrice, (res) => {
-            this.priceList = res.data;
-            this.setState({openLoad: false});
-        })
-    }
-
     mapClick(idx) {
         if (this.state.siteNumber !== idx) {
-            const snp = this.priceList.find(item => item.siteKey === idx);
-            const price = getPrice(this.cardType, snp);
-            this.setState({siteNumber: idx, booked: [], siteName: snp.siteName, priceList: [price, price, price, price, price, price, price]});
-            this.calculate({siteNumber: idx, bookDate: this.state.bookDate});
+            this.setState({siteNumber: idx, booked: [], totalAmt: 0, totalHour: 0});
+            this.loadSiteData(idx, this.state.bookDate);
         }
     }
 
     dateClick(e) {
         const bkDate = this.dateRange[e.detail.value];
         const date = dateTrans(bkDate);
-        this.setState({bookDate: date, dateText: bkDate, booked: []});
-        this.calculate({siteNumber: this.state.siteNumber, bookDate: date});
+        if (date !== this.state.bookDate) {
+            this.setState({bookDate: date, dateText: bkDate, booked: [], totalAmt: 0, totalHour: 0});
+            this.loadSiteData(this.state.siteNumber, date);
+        }
     }
 
     siteTypeClick(type) {
         if (type !== this.state.siteType) {
-            this.setState({siteType: type, siteNumber: '', booked: []});
+            this.setState({siteType: type, siteNumber: '', booked: [], totalAmt: 0, totalHour: 0});
         }
     }
 
-    calculate(state) {
-        if (state.siteNumber !== '' && state.bookDate !== '') {
+    loadSiteData(siteNumber, bookDate) {
+        if (siteNumber !== '' && bookDate !== '') {
             this.setState({openLoad: true});
-            const url = api.bookData + `?bookDate=${state.bookDate}&siteNumber=${state.siteNumber}`;
+            const url = api.bookData + `?memId=${memGet('memId')}&bookDate=${bookDate}&siteNumber=${siteNumber}`;
             remoteGet(url, (res) => {
-                const rd = res.data;
-                if (rd !== null) {
-                    this.setState({openLoad: false, booked: [rd.period1, rd.period2, rd.period3, rd.period4, rd.period5, rd.period6, rd.period7]});
-                } else {
-                    this.setState({openLoad: false, booked: []});
-                    Taro.showToast({title: '无法读取已订场信息，请稍后再试', icon: 'none', duration: 1500});
-                }
-            })
+                const d = res.data;
+                const arr = [d.period1, d.period2, d.period3, d.period4, d.period5, d.period6, d.period7];
+                this.setState({openLoad: false, bookDiscount: d.bookDiscount, sitePrice: d.sitePrice, siteName: d.siteName, booked: arr});
+            }, () => this.setState({openLoad: false, bookDiscount: 1, sitePrice: 0, siteName: '', booked: []}));
         }
     }
 
-    //{'1':'已预订','2':'已锁定', '3':'当前已选'}
+    //{'1':'已预订','2':'已锁定', '3':'已锁定', '10':'当前已选'}
     timeItem(idx) {
         const status = this.state.booked[idx];
         if (status === 1 || status === 2 || status === 3) return;
@@ -201,14 +187,9 @@ export default class Book extends Component {
             this.state.booked[idx] = 10;
         }
 
-        let hour = 0, price = 0;
-        this.state.booked.forEach((st, idx) => {
-            if (st === 10) {
-                price += this.state.priceList[idx];
-                hour += 2;
-            }
-        });
-        this.setState({totalAmt: price, totalHour: hour});
+        const times = this.state.booked.filter(st => st === 10).length;
+        const price = times * this.state.sitePrice;
+        this.setState({totalAmt: price, totalHour: times * 2});
     }
 
     validate() {
@@ -222,15 +203,11 @@ export default class Book extends Component {
         }
 
         const segment = [];
-        let price = 0;
         this.state.booked.forEach((st, idx) => {
-            if (st === 10) {
-                segment.push(idx);
-                price += this.state.priceList[idx];
-            }
+            if (st === 10) segment.push(idx);
         });
 
-        if (segment.length === 0 || price <= 0) {
+        if (segment.length === 0) {
             Taro.showToast({title: '请选择时段', icon: 'none', duration: 1500});
             return;
         }
@@ -249,8 +226,9 @@ export default class Book extends Component {
                 return;
             }
         }
-
-        this.setState({showModel: true, totalAmt: price, timeDetail: getTimePeriod(segment)});
+        //计算优惠
+        const amt = this.state.bookDiscount * this.state.totalAmt;
+        this.setState({showModel: true, promoAmt: amt, timeDetail: getTimePeriod(segment)});
     }
 
     submit() {
@@ -262,20 +240,17 @@ export default class Book extends Component {
             bookDate: this.state.bookDate,
             bookPeriod: this.state.timeDetail,
             bookHour: this.state.totalHour,
-            payAmount: this.state.totalAmt
+            payAmount: this.state.promoAmt
         };
         remotePost(api.orderBooking, data, (res) => {
             const rd = res.data;
-            if (rd === null) {
-                Taro.showToast({title: '支付失败，核对订单数据有误', icon: 'none', duration: 2000});
-                this.setState({openLoad: false});
-            } else if (rd.bookStatus === 0) {
-                this.setState({openLoad: false, payModel: true, originTotal: rd.payAmount, bhkId: rd.bhkId});
+            if (rd.bookStatus === 0) {
+                this.setState({openLoad: false, payModel: true, totalAmt: rd.payAmount, bhkId: rd.bhkId});
             } else {
                 Taro.navigateTo({url: '/pages/mine/bookList/bookList'});
                 this.setState(Object.assign(this.originState, {openLoad: false}));//还原
             }
-        })
+        }, () => this.setState({openLoad: false}));
     }
 
     wxPay() {
@@ -284,7 +259,7 @@ export default class Book extends Component {
         const payData = {
             memId: memGet('memId'),
             sourceId: this.state.bhkId,
-            amount: this.state.originTotal,
+            amount: this.state.totalAmt,
             payType: 2
         };
         wxPay(payData, () => this.setState({openLoad: false}), () => {
@@ -336,7 +311,7 @@ export default class Book extends Component {
                         <View className='modal-line'><View className='name'>场地</View><View className='info'>{this.state.siteName}</View></View>
                         <View className='modal-line'><View className='name'>预定日期</View><View className='info'>{this.state.bookDate}</View></View>
                         <View className='modal-line'><View className='name'>预定时段</View><View className='info'>{this.state.timeDetail}</View></View>
-                        <View className='modal-line'><View className='name'>优惠总额</View><View className='info'>{this.state.totalAmt} 元</View></View>
+                        <View className='modal-line'><View className='name'>优惠总额</View><View className='info'>{this.state.promoAmt} 元</View></View>
                         <View className='tips-line'>在线场地预定均不支持开票。如需开票请咨询前台，了解开票预定价格。</View>
                     </AtModalContent>
                     <AtModalAction>
@@ -350,7 +325,7 @@ export default class Book extends Component {
                         <View className='modal-line'><View className='name'>场地</View><View className='info'>{this.state.siteName}</View></View>
                         <View className='modal-line'><View className='name'>预定日期</View><View className='info'>{this.state.bookDate}</View></View>
                         <View className='modal-line'><View className='name'>预定时段</View><View className='info'>{this.state.timeDetail}</View></View>
-                        <View className='modal-line'><View className='name'>总金额</View><View className='info'>{this.state.originTotal} 元</View></View>
+                        <View className='modal-line'><View className='name'>总金额</View><View className='info'>{this.state.totalAmt} 元</View></View>
                         <View className='tips-line'>账户余额不足，您可使用微信支付，但不能享受会员优惠。您确认使用微信支付吗？</View>
                     </AtModalContent>
                     <AtModalAction>

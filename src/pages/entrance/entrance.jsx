@@ -74,7 +74,7 @@ export default class Entrance extends Component {
     componentDidMount() {
         remoteGet(api.enTicket, (res) => {
             this.setState({openLoad: false, ticketList: res.data});
-        })
+        }, () => this.setState({openLoad: false}));
     }
 
     cardClick(idx) {
@@ -97,16 +97,13 @@ export default class Entrance extends Component {
 
         const card = this.state.ticketList[this.state.cardIdx];
         remoteGet(api.orderTicket + `?memId=${memGet('memId')}&etId=${card.etId}&amount=${this.state.price}`, (res) => {
-            const rd = res.data;
-            if (rd === 100) {
-                Taro.redirectTo({url: '/pages/mine/cards/cards'});
-            } else if (rd === 1) {
+            const d = res.data;
+            if (d === 1) {
                 this.setState({openLoad: false, payModel: true});
             } else {
-                Taro.showToast({title: '支付失败，核对订单数据有误', icon: 'none', duration: 2000});
-                this.setState({openLoad: false});
+                Taro.redirectTo({url: '/pages/mine/cards/cards'});
             }
-        })
+        }, () => this.setState({openLoad: false}));
     }
 
     cashPay() {

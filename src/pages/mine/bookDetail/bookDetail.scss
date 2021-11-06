@@ -1,7 +1,7 @@
 @import "~taro-ui/dist/style/components/modal.scss";
 
 .bd-hold {
-    background-color: #0554BB;
+    background-color: #E50014;
     position: relative;
     height: 300px;
     display: flex;
@@ -60,7 +60,7 @@
             max-width: 160px;
             min-width: 160px;
             height: 90px;
-            color: #0554BB;
+            color: #E50014;
             font-size: 28px;
             display: flex;
             align-items: center;
@@ -78,7 +78,7 @@
                 height: 90px;
                 font-size: 28px;
                 background-color: transparent;
-                color: #0554BB;
+                color: #E50014;
 
                 &::after {
                     content: none;

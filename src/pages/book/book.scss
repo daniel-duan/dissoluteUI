@@ -9,7 +9,7 @@
 
     .tips-line {
         padding: 8px 0;
-        color: #0554BB;
+        color: #E50014;
     }
 
     .modal-line {
@@ -29,7 +29,7 @@
     }
 
     .submit-btn {
-        color: #0554BB;
+        color: #E50014;
     }
 }
 
@@ -41,7 +41,7 @@
         width: 100%;
     }
 
-    .site1, .site2, .seg1, .seg2, .seg3, .seg4, .seg5, .seg6, .seg7, .seg8 {
+    .site1, .site2, .site3, .site4, .site5, .seg1, .seg2, .seg3, .seg4, .seg5, .seg6, .seg7, .seg8, .seg9, .seg10 {
         position: absolute;
     }
 
@@ -50,73 +50,108 @@
     }
 
     .site1 {
-        top: 12px;
-        left: 12px;
-        width: 42%;
-        height: 42%;
+        top: 56px;
+        right: 12px;
+        width: 32.5%;
+        height: 36%;
     }
 
     .site2 {
-        top: 12px;
+        bottom: 26px;
         right: 12px;
-        width: 42%;
-        height: 42%;
+        width: 32.5%;
+        height: 36%;
+    }
+
+    .site3 {
+        top: 56px;
+        left: 28%;
+        width: 32.5%;
+        height: 36%;
+    }
+
+    .site4 {
+        bottom: 26px;
+        left: 28%;
+        width: 32.5%;
+        height: 36%;
+    }
+
+    .site5 {
+        top: 56px;
+        left: 8px;
+        width: 25%;
+        height: 36%;
     }
 
     .seg1 {
-        top: 12px;
-        left: 12px;
-        width: 21%;
-        height: 42%;
+        top: 56px;
+        right: 17.5%;
+        width: 16%;
+        height: 36%;
     }
 
     .seg2 {
-        top: 12px;
-        left: 23%;
-        width: 21%;
-        height: 42%;
+        top: 56px;
+        right: 12px;
+        width: 16%;
+        height: 36%;
     }
 
     .seg3 {
-        top: 12px;
-        right: 23%;
-        width: 21%;
-        height: 42%;
+        bottom: 26px;
+        right: 17.5%;
+        width: 16%;
+        height: 36%;
     }
 
     .seg4 {
-        top: 12px;
+        bottom: 26px;
         right: 12px;
-        width: 21%;
-        height: 42%;
+        width: 16%;
+        height: 36%;
     }
 
     .seg5 {
-        bottom: 18px;
-        left: 12px;
-        width: 20%;
-        height: 44%;
+        top: 56px;
+        left: 28%;
+        width: 16%;
+        height: 36%;
     }
 
     .seg6 {
-        bottom: 18px;
-        left: 24%;
-        width: 20%;
-        height: 44%;
+        top: 56px;
+        left: 44.5%;
+        width: 16%;
+        height: 36%;
     }
 
     .seg7 {
-        bottom: 18px;
-        right: 24.3%;
-        width: 20%;
-        height: 44%;
+        bottom: 26px;
+        left: 28%;
+        width: 16%;
+        height: 36%;
     }
 
     .seg8 {
-        bottom: 18px;
-        right: 12px;
-        width: 20%;
-        height: 44%;
+        bottom: 26px;
+        left: 44.5%;
+        width: 16%;
+        height: 36%;
+    }
+
+    .seg9 {
+        top: 56px;
+        left: 8px;
+        width: 12.5%;
+        height: 36%;
+    }
+
+    .seg10 {
+        top: 56px;
+        left: 13%;
+        width: 12.5%;
+        height: 36%;
     }
 }
 
@@ -160,7 +195,7 @@
         }
 
         .type.active {
-            background-color: #0554BB;
+            background-color: #E50014;
             color: white;
         }
     }
@@ -196,7 +231,7 @@
     }
 
     .book-now {
-        background-color: #0554BB;
+        background-color: #E50014;
         color: white;
     }
 
@@ -210,7 +245,7 @@
     text-align: right;
 
     text {
-        color: #0554BB;
+        color: #E50014;
         padding: 0 5px;
     }
 }

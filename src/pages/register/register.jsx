@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Taro from "@tarojs/taro";
-import {Button, Camera, Image, Input, Picker, Text, View} from '@tarojs/components'
+import {Button, Camera, Image, Input, View} from '@tarojs/components'
 import {AtIcon} from "taro-ui";
 
 import './register.scss'
@@ -14,11 +14,6 @@ function isTeamMem(type) {
     return type === 2 || type === 5 || type === 6;
 }
 
-function RealNameWidget(props) {
-    if (!props.edit) return props.realName;
-    return <Input className='body-input' type='text' value={props.realName} maxlength={8} placeholder='请输入真实姓名' onInput={(e) => props.setValue('realName', e.detail.value)}/>;
-}
-
 function TeamNameWidget(props) {
     if (!props.edit) return props.teamName;
     return <Input className='body-input' type='text' value={props.teamName} maxlength={36} placeholder='请输入团体名称' onInput={(e) => props.setValue('teamName', e.detail.value)}/>;
@@ -26,12 +21,11 @@ function TeamNameWidget(props) {
 
 function FaceWidget(props) {
     if (!props.edit) return <Image className='head-image' src={props.faceImage} mode='aspectFill'/>;
-    return <View className='face-add' onClick={props.openCamera}><Image className='head-image' src={props.faceImage} mode='aspectFill'/></View>;
-}
-
-function RegionWidget(props) {
-    if (!props.edit) return props.address;
-    return <Picker className='line-picker' mode='region' value={props.memRegion} onChange={(e) => props.setValue('memRegion', e.detail.value)}><Text>{props.memRegion.join(' ')}</Text></Picker>;
+    return (
+        <View className='face-add' onClick={props.openCamera}>
+            {!props.faceImage ? <View className='face-text'>点击拍照</View> : <Image className='head-image' src={props.faceImage} mode='aspectFill'/>}
+        </View>
+    );
 }
 
 function MemTypeWidget(props) {
@@ -44,18 +38,13 @@ function MemTypeWidget(props) {
     );
 }
 
-function StreetWidget(props) {
-    if (!props.edit) return null;
-    return (
-        <View className='line'>
-            <Input className='input' type='text' value={props.memStreet} maxlength={60} placeholder='请输入详细地址' onInput={(e) => props.setValue('memStreet', e.detail.value)}/>
-        </View>
-    );
-}
-
 function PhoneWidget(props) {
     if (!props.edit) return props.phoneNumber;
-    return <Button className='phone-btn' openType='getPhoneNumber' onGetPhoneNumber={props.getPhone}>{props.phoneNumber}</Button>;
+    return (
+        <Button className='phone-btn' openType='getPhoneNumber' onGetPhoneNumber={props.getPhone}>
+            {!props.phoneNumber ? <View className='phone-text'>点击选择手机号码</View> : props.phoneNumber}
+        </Button>
+    );
 }
 
 export default class Register extends Component {
@@ -73,15 +62,11 @@ export default class Register extends Component {
             btnText: registered ? '修改' : '注册',
             opText: '编辑',
             newFace: false,
-            realName: '',
             phoneNumber: '',
             faceImage: '',
             gender: '',
             memType: '',
             teamName: '',
-            memRegion: [],
-            memStreet: '',
-            memAddress: '',
             inviteCode: ''
         };
 
@@ -108,31 +93,18 @@ export default class Register extends Component {
     loadMember(init) {
         const url = api.memInfo + '?memId=' + memGet('memId');
         remoteGet(url, (res) => {
-            this.member = res.data === null ? {
-                realName: '',
-                memType: 1,
-                gender: memGet('gender'),
-                faceImage: '',
-                teamName: '',
-                memStreet: '',
-                memAddress: '',
-            } : res.data;
+            this.member = res.data;
             this.fillMember(init);
         });
     }
 
     fillMember(state) {
         const mem = this.member;
-        const region = mem.memRegion ? mem.memRegion.split(' ') : ['宁夏回族自治区', '银川市', ''];
-        state.realName = mem.realName;
         state.phoneNumber = mem.phoneNumber;
         state.gender = mem.gender;
         state.faceImage = mem.faceImage;
         state.memType = mem.memType;
         state.teamName = mem.teamName;
-        state.memRegion = region;
-        state.memStreet = mem.memStreet;
-        state.memAddress = mem.memAddress;
         this.setState(state);
     }
 
@@ -145,11 +117,7 @@ export default class Register extends Component {
     }
 
     submit() {
-        if (this.state.realName.length < 2) {
-            Taro.showToast({title: '请输入合法的真实姓名', icon: 'none', duration: 2000});
-            return;
-        }
-        if (this.state.phoneNumber.length < 2) {
+        if (this.state.phoneNumber === undefined || this.state.phoneNumber.length < 2) {
             Taro.showToast({title: '请选择的手机号码', icon: 'none', duration: 2000});
             return;
         }
@@ -157,13 +125,8 @@ export default class Register extends Component {
             Taro.showToast({title: '请选择人脸识别头像', icon: 'none', duration: 2000});
             return;
         }
-        if (this.state.memStreet.length < 1) {
-            Taro.showToast({title: '请输入详细地址', icon: 'none', duration: 2000});
-            return;
-        }
 
         const mem = this.state;
-        const region = mem.memRegion.join(' ');
         const avatarUrl = memGet('avatarUrl');
         const nickName = memGet('nickName');
         const unionId = memGet('unionId');
@@ -171,14 +134,10 @@ export default class Register extends Component {
             memId: memGet('memId'),
             openId: memGet('openId'),
             unionId: unionId ? unionId : '',
-            realName: mem.realName,
             phoneNumber: mem.phoneNumber,
             gender: mem.gender,
             memType: mem.memType,
             teamName: mem.teamName,
-            memRegion: region,
-            memStreet: mem.memStreet,
-            memAddress: region + ' ' + mem.memStreet,
             inviteCode: mem.inviteCode,
             wxImage: avatarUrl ? avatarUrl : '',
             wxName: nickName ? nickName : ''
@@ -202,7 +161,7 @@ export default class Register extends Component {
             remotePost(api.memSave, data, (res) => {
                 cacheMem(res.data);
                 this.loadMember({openLoad: false, edit: false, newFace: false, registered: isMember(), btnText: '修改', opText: '编辑'});
-            });
+            }, () => this.loadMember({openLoad: false}));
         }
     }
 
@@ -223,7 +182,7 @@ export default class Register extends Component {
             this.setState({openLoad: true});
             remotePost(api.resolvePhone, data, (res) => {
                 this.setState({phoneNumber: res.data, openLoad: false});
-            });
+            }, () => this.setState({openLoad: false}));
         }
     }
 
@@ -239,13 +198,12 @@ export default class Register extends Component {
                     filePath: res.tempImagePath,
                     name: 'face',
                     success(suc) {
-                        const info = suc.data;
-                        if (info.length > 0) {
-                            const gender = that.state.gender ? that.state.gender : info;
-                            that.setState({faceImage: res.tempImagePath, newFace: true, gender: gender, openLoad: false});
-                        } else {
-                            Taro.showToast({title: '识别失败，图片中没有人脸或者有多个人脸信息', icon: 'none', duration: 2000});
+                        const info = JSON.parse(suc.data);
+                        if (info.success === false) {
+                            Taro.showToast({title: info.msg, icon: 'none', duration: 2600});
                             that.setState({openLoad: false});
+                        } else {
+                            that.setState({faceImage: res.tempImagePath, newFace: true, gender: info.data, openLoad: false});
                         }
                     }
                 });
@@ -256,7 +214,7 @@ export default class Register extends Component {
     render() {
         return (
             <View class='app-content'>
-                <TopBar title='领跑体育会员'/>
+                <TopBar title='陕果篮球中心会员'/>
                 <View className='auto-scroll-view' style={{top: this.navHeight}}>
                     {this.state.registered && <View className='member-head'>
                         <View className='text'>我的会员信息</View>
@@ -264,10 +222,6 @@ export default class Register extends Component {
                     </View>}
                     <View className='info-hold'>
                         <View className='info-item'>
-                            <View className='line'>
-                                <View className='head'>真实姓名</View>
-                                <View className='body'><RealNameWidget edit={this.state.edit} realName={this.state.realName} setValue={this.setValue}/></View>
-                            </View>
                             <View className='line'>
                                 <View className='head'>手机号码</View>
                                 <View className='body'><PhoneWidget edit={this.state.edit} phoneNumber={this.state.phoneNumber} getPhone={this.getPhone}/></View>
@@ -292,11 +246,6 @@ export default class Register extends Component {
                                 <View className='head'>团体名称</View>
                                 <View className='body'><TeamNameWidget edit={this.state.edit} teamName={this.state.teamName} setValue={this.setValue}/></View>
                             </View>}
-                            <View className='line'>
-                                <View className='head'>地址</View>
-                                <View className='body'><RegionWidget edit={this.state.edit} address={this.state.memAddress} memRegion={this.state.memRegion} setValue={this.setValue}/></View>
-                            </View>
-                            <StreetWidget edit={this.state.edit} memStreet={this.state.memStreet} setValue={this.setValue}/>
                         </View>
                         {this.state.registered || <View className='info-item'>
                             <View className='line'>

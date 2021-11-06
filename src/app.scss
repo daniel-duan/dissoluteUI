@@ -7,7 +7,7 @@ page {
 }
 
 .dz-top-nav {
-    background-color: #0554BB;
+    background-color: #E50014;
 
     .nav-title {
         color: white;
@@ -45,4 +45,12 @@ page {
     bottom: 0;
     box-sizing: border-box;
     overflow-y: auto;
+}
+
+.reg-btn-group {
+    display: flex;
+}
+
+.reg-btn-group button {
+    flex: 1;
 }

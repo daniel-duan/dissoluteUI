@@ -29,30 +29,19 @@ export default class Join extends Component {
 
     componentDidMount() {
         remoteGet(api.bookInfo + `?bhkId=${this.bhkId}&memId=${memGet('memId')}`, (res) => {
-            if (res.success === false) {
-                Taro.showModal({content: '预定已取消或不存在，无法加入比赛', showCancel: false, confirmText: "返回首页", complete: () => Taro.switchTab({url: '/pages/home/home'})});
-            } else {
-                const joined = res.msg === '0' ? 2 : 1;
-                this.setState({detail: res.data, joined: joined, openLoad: false});
-            }
+            const joined = res.msg === '0' ? 2 : 1;
+            this.setState({detail: res.data, joined: joined, openLoad: false});
+        }, () => {
+            Taro.showModal({content: '预定已取消或不存在，无法加入比赛', showCancel: false, confirmText: "返回首页", complete: () => Taro.switchTab({url: '/pages/home/home'})});
         });
     }
 
     submit() {
         this.setState({openLoad: true});
         remoteGet(api.bookJoin + `?bhkId=${this.bhkId}&memId=${memGet('memId')}`, (res) => {
-            const rd = res.data;
-            if (rd === 0) {
-                Taro.showToast({title: '加入比赛失败，预定已取消或不存在', icon: 'none', duration: 2000});
-                this.setState({openLoad: false});
-            } else if (rd === 1) {
-                Taro.showToast({title: '加入比赛失败，比赛已满员', icon: 'none', duration: 2000});
-                this.setState({openLoad: false});
-            } else {
-                Taro.showToast({title: '加入比赛成功', icon: 'none', duration: 2000});
-                this.setState({openLoad: false, joined: 1});
-            }
-        });
+            Taro.showToast({title: '加入比赛成功', icon: 'none', duration: 2000});
+            this.setState({openLoad: false, joined: 1});
+        }, () => this.setState({openLoad: false}));
     }
 
     render() {

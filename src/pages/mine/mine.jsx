@@ -50,7 +50,7 @@ export default class Mine extends Component {
                 <View className='auto-scroll-view'>
                     <View className='dz-personal-back'/>
                     <View className='dz-member-card'>
-                        <Text className='name'>领跑体育</Text>
+                        <Text className='name'>陕果篮球中心</Text>
                         <View className='dz-vip-avatar' onClick={() => Taro.navigateTo({url: '/pages/register/register'})}><OpenData type='userAvatarUrl'/></View>
                         <View className='dz-vip-type'>{this.state.memType}</View>
                     </View>

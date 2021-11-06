@@ -84,7 +84,7 @@ export default class Screen extends React.Component {
             <View className='app-content'>
                 <View className='load-back'>
                     <View className='load-center'>
-                        <View className='load-text'>领跑体育</View>
+                        <View className='load-text'>陕果篮球中心</View>
                     </View>
                     <View className='login-load'>登陆中...</View>
                 </View>

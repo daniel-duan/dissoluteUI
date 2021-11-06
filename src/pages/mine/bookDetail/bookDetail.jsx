@@ -24,7 +24,7 @@ function Joined(props) {
         <View className='join-item'>
             <View className='head'><Image className='head-icon' src={item.wxImage} mode='aspectFill'/></View>
             <View className='cnt'>{item.remark}</View>
-            <View className='del' onClick={() => props.toDelete(item.tckId)}><AtIcon value='trash' size='20' color='#0554BB'/></View>
+            <View className='del' onClick={() => props.toDelete(item.tckId)}><AtIcon value='trash' size='20' color='#E50014'/></View>
         </View>
     );
 }
@@ -68,20 +68,15 @@ export default class BookDetail extends Component {
         return {
             title: `${this.state.detail.realName}邀请您加入比赛（${this.state.detail.bookDate}）`,
             path: '/pages/screen/screen?forward=YES&type=JOIN&bhkId=' + this.bhkId,
-            imageUrl: 'https://lingpaobasketball.com/file/wechat/lingpao_share.jpg'
+            imageUrl: 'https://lingpaobasketball.com/file/common/shanguo_share.jpg'
         };
     }
 
     refund() {
         this.setState({refundOpen: false, openLoad: true});
         remoteGet(api.orderRefund + `?memId=${this.me}&bhkId=${this.bhkId}`, (res) => {
-            if (res.data === 1) {
-                Taro.redirectTo({url: '/pages/mine/bookList/bookList?current=2'})
-            } else {
-                Taro.showToast({title: '退款失败，无效订单或者已超过退款时间', icon: 'none', duration: 2000});
-                this.setState({openLoad: false});
-            }
-        });
+            Taro.redirectTo({url: '/pages/mine/bookList/bookList?current=2'})
+        }, () => this.setState({openLoad: false}));
     }
 
     toDelete(id) {
@@ -116,12 +111,12 @@ export default class BookDetail extends Component {
                         <View className='op-item'>
                             <View className='body'>邀请队员加入比赛</View>
                             <View className='icon'>
-                                <Button openType='share'>分享<AtIcon value='external-link' size='18' color='#0554BB'/></Button>
+                                <Button openType='share'>分享<AtIcon value='external-link' size='18' color='#E50014'/></Button>
                             </View>
                         </View>
                         <View className='op-item'>
                             <View className='body'>待入场</View>
-                            <View className='icon' onClick={() => this.setState({refundOpen: true})}>退款<AtIcon value='repeat-play' size='20' color='#0554BB'/></View>
+                            <View className='icon' onClick={() => this.setState({refundOpen: true})}>退款<AtIcon value='repeat-play' size='20' color='#E50014'/></View>
                         </View>
                     </View>
 

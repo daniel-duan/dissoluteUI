@@ -1,14 +1,14 @@
 export default {
     pages: [
         'pages/screen/screen',
+        'pages/register/register',
+        'pages/book/book',
         'pages/coach/coach',
         'pages/player/player',
         'pages/us/us',
         'pages/mine/mine',
         'pages/web/review',
-        'pages/book/book',
         'pages/home/home',
-        'pages/register/register',
         'pages/activity/activity',
         'pages/entrance/entrance',
         'pages/web/webView',
@@ -24,7 +24,7 @@ export default {
         color: "#ffffff",
         selectedColor: "#ffdc35",
         borderStyle: "black",
-        backgroundColor: "#0554BB",
+        backgroundColor: "#E50014",
         list: [
             {
                 text: "首页",
@@ -54,8 +54,8 @@ export default {
     },
     window: {
         backgroundTextStyle: 'light',
-        navigationBarBackgroundColor: '#0554BB',
-        navigationBarTitleText: '领跑体育',
+        navigationBarBackgroundColor: '#E50014',
+        navigationBarTitleText: '陕果篮球中心',
         navigationBarTextStyle: 'white',
         navigationStyle: 'custom'
     },

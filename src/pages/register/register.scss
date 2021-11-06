@@ -67,6 +67,12 @@
     width: 120px;
 }
 
+.face-text {
+    height: 120px;
+    color: #bbbbbb;
+    line-height: 120px;
+}
+
 .register-hold {
     margin: 30px 20px;
 }
@@ -120,8 +126,8 @@
 }
 
 .member-type.active {
-    border: 1PX solid #0554BB;
-    color: #0554BB;
+    border: 1PX solid #E50014;
+    color: #E50014;
 }
 
 .member-head {
@@ -143,7 +149,7 @@
         min-width: 120px;
         height: 90px;
         line-height: 90px;
-        color: #0554BB;
+        color: #E50014;
         text-align: center;
 
         &:active {
@@ -175,6 +181,11 @@
     &::after {
         content: none;
     }
+}
+
+.phone-text {
+    color: #bbbbbb;
+    font-size: 28px;
 }
 
 .camera-close {

@@ -1,4 +1,5 @@
 @import "~taro-ui/dist/style/components/modal.scss";
+
 .at-modal__container {
     width: 88%;
 
@@ -24,7 +25,7 @@
     }
 
     .submit-btn {
-        color: #0554BB;
+        color: #E50014;
     }
 }
 
@@ -51,12 +52,18 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        flex-direction: column;
         color: #555555;
+
+        .promo {
+            font-size: 24px;
+            color: #888888;
+        }
     }
 
     .recharge-item.active {
         border: none;
-        background-color: #0554BB;
+        background-color: #E50014;
         color: white;
     }
 

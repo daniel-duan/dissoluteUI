@@ -106,7 +106,7 @@ export default class Home extends Component {
     render() {
         return (
             <View className='app-content'>
-                <TopBar nav={false} title='领跑体育'/>
+                <TopBar nav={false} title='陕果篮球中心'/>
                 <View className='auto-scroll-view' style={{top: this.navHeight - 14}}>
                     <TopSwiper list={this.state.swipeList} swipeClick={this.swipeClick}/>
                     <FlowBox/>

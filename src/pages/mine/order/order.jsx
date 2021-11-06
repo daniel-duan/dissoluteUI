@@ -75,7 +75,7 @@ export default class Order extends Component {
             const ind = pag.total === 0 ? 4 : (pag.total > (pag.current * pag.page) ? 1 : 2);
             const list = this.state.dataList;
             this.setState({openLoad: false, indicator: ind, curPage: pag.current, dataList: list.concat(res.data)});
-        });
+        }, () => this.setState({openLoad: false}));
     }
 
     render() {
