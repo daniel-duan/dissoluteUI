@@ -1,0 +1,49 @@
+.app-content {
+    background-color: white;
+}
+
+.load-back {
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #0554BB;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.load-center {
+    position: relative;
+    top: -80px;
+}
+
+.load-text {
+    color: white;
+    font-size: 50px;
+    text-align: center;
+    font-style: italic;
+}
+
+.load-logo {
+    display: block;
+    width: 260px;
+}
+
+.load-version {
+    color: white;
+    font-size: 28px;
+    text-align: center;
+    padding-top: 12px;
+}
+
+.login-load {
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+    bottom: 6%;
+    color: white;
+}

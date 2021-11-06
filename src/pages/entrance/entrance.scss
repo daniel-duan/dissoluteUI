@@ -1,0 +1,279 @@
+@import "~taro-ui/dist/style/components/modal.scss";
+
+.at-modal__container {
+    width: 88%;
+
+    .at-modal__content {
+        background-color: #f5f5f5;
+    }
+
+    .tips-line {
+        padding: 8px 0;
+        color: #0554BB;
+    }
+
+    .modal-line {
+        display: flex;
+        padding: 5px;
+
+        .name {
+            width: 150px;
+            min-width: 150px;
+            max-width: 150px;
+            color: #555555;
+        }
+
+        .info {
+            color: #333333;
+        }
+    }
+
+    .submit-btn {
+        color: #0554BB;
+    }
+}
+
+.entrance-head {
+    padding: 60px 70px 70px 70px;
+    background-color: #0554BB;
+}
+
+.dz-steps {
+    display: flex;
+
+    .dz-item {
+        flex: 1;
+        text-align: center;
+        position: relative;
+        display: flex;
+        justify-content: flex-end;
+
+        .tx {
+            position: absolute;
+            width: 180px;
+            font-size: 28px;
+            top: 60px;
+            right: -60px;
+            color: white;
+        }
+
+        text {
+            display: block;
+            height: 50px;
+            width: 50px;
+            line-height: 50px;
+            text-align: center;
+            border-radius: 100%;
+            border: 1PX solid white;
+            background-color: transparent;
+            color: white;
+            font-size: 28px;
+        }
+
+        &::before {
+            content: " ";
+            position: absolute;
+            left: 10px;
+            right: 62px;
+            top: 25px;
+            border-bottom: 1px solid white;
+        }
+
+        &:first-child {
+            width: 50px;
+            min-width: 50px;
+            max-width: 50px;
+        }
+
+        &:first-child::after {
+            content: none;
+        }
+    }
+
+    .dz-item.active {
+        text {
+            background-color: #ffdc35;
+            border: 1PX solid #ffdc35;
+            color: #0554BB;
+        }
+
+        .tx {
+            color: #ffdc35;
+        }
+
+        &::before {
+            border-bottom: 1px solid #ffdc35;
+        }
+    }
+}
+
+
+.card-hold {
+    padding: 0 20px;
+
+    .i-card {
+        margin-top: 20px;
+        display: flex;
+        position: relative;
+    }
+
+    .i-card.active {
+        .card-left {
+            border-right-color: black;
+
+            .origin {
+                &:after {
+                    border-bottom: 2PX solid #0554BB;
+                }
+            }
+
+            .promotion {
+                color: #0554BB;
+            }
+        }
+
+        .card-right {
+            background-color: #0554BB;
+        }
+    }
+
+    .card-left {
+        flex: 1;
+        background-color: white;
+        border-right: 1px dashed #bbbbbb;
+        padding: 10px 20px 0 30px;
+        border-top-left-radius: 12px;
+        border-bottom-left-radius: 12px;
+        display: flex;
+        flex-direction: column;
+
+        .price {
+            height: 80px;
+            display: flex;
+            align-items: flex-end;
+            color: #555555;
+
+            text:nth-child(1) {
+                margin-right: 20px;
+                position: relative;
+
+                &:after {
+                    content: " ";
+                    position: absolute;
+                    top: 20px;
+                    left: -4px;
+                    right: -4px;
+                    border-bottom: 2PX solid #555555;
+                }
+            }
+
+            text:nth-child(2) {
+                margin-right: 10px;
+            }
+
+            text:nth-child(3) {
+                margin-right: 10px;
+                color: #555555;
+                font-weight: bold;
+            }
+        }
+
+        .desc {
+            font-size: 28px;
+            color: #555555;
+            height: 100px;
+            overflow: hidden;
+            padding-top: 16px;
+            box-sizing: border-box;
+        }
+    }
+
+    .card-right {
+        width: 200px;
+        height: 200px;
+        background-color: #cccccc;
+        border-top-right-radius: 6px;
+        border-bottom-right-radius: 6px;
+        position: relative;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+
+        &::before {
+            content: " ";
+            position: absolute;
+            background-color: #f5f5f5;
+            width: 16px;
+            height: 16px;
+            border-radius: 32px;
+            top: -8px;
+            left: -8px;
+        }
+
+        &::after {
+            content: " ";
+            position: absolute;
+            background-color: #f5f5f5;
+            width: 16px;
+            height: 16px;
+            border-radius: 32px;
+            bottom: -8px;
+            left: -8px;
+        }
+    }
+
+    .i-dot {
+        position: absolute;
+        height: 200px;
+        right: 0;
+        top: 0;
+    }
+
+    .dot1::before, .dot1::after, .dot2::before, .dot2::after, .dot3::before, .dot3::after, .dot4::before, .dot4::after {
+        content: " ";
+        position: absolute;
+        background-color: #f5f5f5;
+        width: 16px;
+        height: 16px;
+        border-radius: 32px;
+        right: -8px;
+    }
+
+    .dot1::before {
+        top: 6px;
+    }
+
+    .dot1::after {
+        top: 31px;
+    }
+
+    .dot2::before {
+        top: 56px;
+    }
+
+    .dot2::after {
+        top: 81px;
+    }
+
+    .dot3::before {
+        top: 106px;
+    }
+
+    .dot3::after {
+        top: 131px;
+    }
+
+    .dot4::before {
+        top: 156px;
+    }
+
+    .dot4::after {
+        top: 181px;
+    }
+}
+
+.button-hold {
+    margin: 40px 20px 20px 20px;
+}

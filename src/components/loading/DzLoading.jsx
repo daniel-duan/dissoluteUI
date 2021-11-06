@@ -1,7 +1,5 @@
 import React from 'react';
-import {Image, View} from '@tarojs/components';
-import loading from "../../assets/image/loading.png";
-import './DzLoading.scss'
+import {View} from '@tarojs/components';
 
 export default class DzLoading extends React.Component {
     constructor(props) {
@@ -9,15 +7,24 @@ export default class DzLoading extends React.Component {
     }
 
     render() {
+        if (this.props.open === false) return null;
         return (
             <View className='dz-loading'>
-                <View className='dz-loading-box'>
-                    <View className='dz-loading-dot'/>
-                    <View className='dz-loading-dot'/>
-                    <View className='dz-loading-dot'/>
+                <View className='loading-box'>
+                    <View className='loading-dot'/>
+                    <View className='loading-dot'/>
+                    <View className='loading-dot'/>
+                    <View className='loading-dot'/>
+                    <View className='loading-dot'/>
                 </View>
-                <Image className='dz-loading-img' src={loading} mode='aspectFill'/>
             </View>
         )
     }
 }
+DzLoading.defaultProps = {
+    open: false
+};
+
+DzLoading.propTypes = {
+    open: Boolean
+};

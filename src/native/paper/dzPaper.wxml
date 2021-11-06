@@ -1,4 +1,4 @@
-<view class="dz-ripper dz-paper {{border ? 'dz-paper-border' : ''}}"
+<view class="dz-ripper dz-paper"
       capture-bind:tap="_tap"
       capture-bind:longpress="_longPress"
       capture-bind:touchend="_touchEnd"

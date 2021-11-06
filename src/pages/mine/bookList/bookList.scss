@@ -1,0 +1,40 @@
+@import "~taro-ui/dist/style/components/tabs.scss";
+
+.at-tabs {
+    position: relative;
+}
+.at-tabs__header{
+
+}
+.at-tabs__body {
+    position: absolute;
+    top: 92px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.at-tabs-pane {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.at-tabs__item {
+    background-color: #0554BB;
+    color: #eeeeee;
+}
+
+.at-tabs__item--active {
+    color: #ffdc35;
+}
+
+.at-tabs__item-underline {
+    background-color: #ffdc35;
+}
+
+.tab-body {
+    position: relative;
+    overflow-y: auto;
+}

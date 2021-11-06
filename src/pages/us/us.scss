@@ -1,0 +1,47 @@
+.us-content {
+    padding: 0 15px 120px 15px;
+    box-sizing: border-box;
+}
+
+.us-title {
+    color: #000000;
+    font-size: 36px;
+    text-align: center;
+    padding-top: 36px;
+    padding-bottom: 36px;
+}
+
+.us-sec {
+    color: #555555;
+    word-break: break-word;
+    word-wrap: break-word;
+    white-space: normal;
+    text-indent: 2em;
+}
+
+.us-summery {
+    padding: 15px 0;
+}
+
+.contact-us {
+    position: fixed;
+    left: 30px;
+    right: 30px;
+    bottom: 30px;
+    height: 80px;
+    line-height: 80px;
+    border-radius: 40px;
+    background-color: rgba(5, 84, 187, 0.88);
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    color: white;
+}
+
+.contact-us:active {
+    background-color: rgba(255, 152, 0, 1);
+}
+
+.contact-us:after {
+    content: none;
+}

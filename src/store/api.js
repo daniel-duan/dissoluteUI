@@ -1,68 +1,47 @@
 import Taro from "@tarojs/taro";
 
-const remote = 'https://fuyuanshan.com/api';
 // const remote = 'http://localhost:8080/api';
+const remote = 'https://lingpaobasketball.com/api';
 export default {
     login: remote + '/login',
-    register: remote + '/register',
-    regPhone: remote + '/register/phone',
+    memSave: remote + '/member/save',
+    memSaveFace: remote + '/member/save/face',
+    memInfo: remote + '/member/info',
+    resolvePhone: remote + '/resolve/phone',
     web: remote + '/web/page',
-    tempAct: remote + '/temple/activity/find',
-    validTempAct: remote + '/temple/activity/validate',
-    signTempAct: remote + '/temple/activity/sign',
-    platformAct: remote + '/platform/activity/find',
-    validPlatAct: remote + '/platform/activity/validate',
-    signPlatAct: remote + '/platform/activity/sign',
-    getTemple: remote + '/temple/find-all',
-    homeLoad: remote + '/home/load',
-    findTravel: remote + '/travel/find',
-    validTravel: remote + '/travel/validate',
-    signTravel: remote + '/travel/sign',
-    addLike: remote + '/activity/like',
-    getWd: remote + '/temple/wd/find',
-    getSet: remote + '/temple/setting',
-    tempFocusOn: remote + '/temple/focus-on',
-    tempFocusOff: remote + '/temple/focus-off',
-    getListen: remote + '/temple/listen/find',
-    tempDetail: remote + '/temple/detail',
-    quiz: remote + '/temple/quiz',
-    blessing: remote + '/temple/blessing',
-    redeem: remote + '/temple/redeem',
-    placard: remote + '/temple/placard',
-    lantern: remote + '/temple/lantern',
-    getMaster: remote + '/master/find-all',
-    masterInfo: remote + '/master/info',
-    mastFocusOn: remote + '/master/focus-on',
-    mastFocusOff: remote + '/master/focus-off',
-    mastTheme: remote + '/master/upload/theme',
-    getMasterFeed: remote + '/master/feed/find',
-    saveMasterFeed: remote + '/master/feed/save',
-    delMasterFeed: remote + '/master/feed/del',
-    likeMasterFeed: remote + '/master/feed/like',
-    upImage: remote + '/upload/image',
-    listNote: remote + '/travel/note/list',
-    myNote: remote + '/travel/note/mine',
-    getNote: remote + '/travel/note/get',
-    delNote: remote + '/travel/note/delete',
-    saveNote: remote + '/travel/note/save',
-    findMusic: remote + '/music/find',
-    myMessage: remote + '/mine/message/find',
-    myOrder: remote + '/mine/history/find',
-    myEvent: remote + '/mine/event/find',
-    myActivity: remote + '/mine/activity/find',
-    myTemple: remote + '/mine/temple/find',
-    myMaster: remote + '/mine/master/find',
+    review: remote + '/web/review',
     wxPay: remote + '/pay/order',
+    validFace: remote + '/validate/face',
     wxPayQuery: remote + '/pay/query',
-    tempBox: remote + '/temple/box',
+    enTicket: remote + '/entrance/ticket/find',
+    bookData: remote + '/book/data',
+    bookPrice: remote + '/book/price',
+    orderBooking: remote + '/book/order',
+    orderRefund: remote + '/book/refund',
+    swiperLoad: remote + '/swipe/load',
+    activityFind: remote + '/platform/activity/find',
+    addLike: remote + '/operate/like',
+    orderTicket: remote + '/entrance/ticket/order',
+    bookPayed: remote + '/mine/order/list/payed',
+    bookUsed: remote + '/mine/order/list/used',
+    bookRefund: remote + '/mine/order/list/refund',
+    bookDetail: remote + '/mine/order/detail',
+    bookInfo: remote + '/book/info',
+    bookJoin: remote + '/book/join',
+    delJoin: remote + '/book/delete/join',
+    myTicket: remote + '/mine/ticket/find',
+    payList: remote + '/mine/pay/find',
+    playerList: remote + '/star/player/list',
+    coachList: remote + '/star/coach/list',
+    qrImage: remote + '/mine/qr/image'
 }
 
-export function remoteGet(url, data, sucFn) {
+export function remoteGet(url, sucFn) {
     Taro.request({
         url: url,
-        method: "POST",
-        data: data,
-        success: sucFn
+        success: suc => {
+            sucFn(suc.data);
+        }
     })
 }
 
@@ -72,11 +51,7 @@ export function remotePost(url, data, sucFn) {
         method: "POST",
         data: data,
         success: suc => {
-            if (suc.data && suc.data.success) {
-                sucFn(suc);
-            } else {
-                Taro.showModal({content: '后台无法完成您的请求，请稍后再试', showCancel: false, confirmText: "确认"})
-            }
+            sucFn(suc.data);
         }
     })
 }

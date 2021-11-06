@@ -28,7 +28,7 @@ export default function wxPay(payData, errFn, callback) {
                             if (pay.data.status === 888) {
                                 callback(payd.payId);
                             } else {
-                                Taro.showToast({title: '无法查询支付结果，请稍后再试', icon: 'none', duration: 1500});
+                                Taro.showToast({title: '无法查询支付结果，请联系管理员', icon: 'none', duration: 1500});
                                 errFn();
                             }
                         }

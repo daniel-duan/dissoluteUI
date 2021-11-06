@@ -2,7 +2,7 @@
         capture-bind:tap="_tap"
         capture-bind:longpress="_longPress"
         capture-bind:touchend="_touchEnd"
-        style="height:{{type === 'blur' ? '100%' : '46px'}}; background-color:{{type === 'blur' ? 'transparent' : 'red'}};">
+        catchtap="_tapHandle">
     <slot></slot>
     <view wx:for="{{rippleList}}"
           wx:key="rippleId"

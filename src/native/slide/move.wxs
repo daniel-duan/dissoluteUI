@@ -1,0 +1,54 @@
+var onTransition = function (e, instance) {
+    var max = parseInt(e.target.dataset.max);
+    // calc ann
+    var cid = instance.getState().idx === undefined ? 0 : instance.getState().idx;
+    var sw = parseInt(e.target.dataset.one);
+    var left = e.detail.dx > 0;
+    var dx = Math.abs(e.detail.dx);
+    var off = parseInt(dx / sw);
+    if (dx > sw) {
+        dx -= sw * off;
+        cid += left ? off : -off;
+        if (cid < 0) cid = max + cid + 1;
+        if (cid > max) cid = cid - max - 1;
+    }
+
+    var deg = (sw - dx) / sw * 50;
+    var nec = 50 - deg;
+
+    var curr = instance.selectComponent('#dz_sm_' + cid);
+    if (left) {
+        curr.setStyle({transform: 'translate3d(' + (nec * 1.5) + 'px,0px,-' + (nec * 2) + 'px) rotateY(' + nec + 'deg)'});
+        if (max > 1 || (max === 1 && cid === 0)) {
+            var nid = cid === max ? 0 : cid + 1;
+            var next = instance.selectComponent('#dz_sm_' + nid);
+            next.setStyle({transform: 'translate3d(' + -(deg * 1.5) + 'px,0px,-' + (deg * 2) + 'px) rotateY(' + -deg + 'deg)'});
+            if (max > 1 && dx > (sw / 2)) {
+                var nnid = nid === max ? 0 : nid + 1;
+                var nnt = instance.selectComponent('#dz_sm_' + nnid);
+                nnt.setStyle({transform: 'translate3d(-75px,0px,-100px) rotateY(-50deg)'});
+            }
+        }
+    } else {
+        curr.setStyle({transform: 'translate3d(' + -(nec * 1.5) + 'px,0px,-' + (nec * 2) + 'px) rotateY(' + -nec + 'deg)'});
+        if (max > 1 || (max === 1 && cid === 1)) {
+            var pid = cid === 0 ? max : cid - 1;
+            var prev = instance.selectComponent('#dz_sm_' + pid);
+            prev.setStyle({transform: 'translate3d(' + (deg * 1.5) + 'px,0px,-' + (deg * 2) + 'px) rotateY(' + deg + 'deg)'});
+            if (max > 1 && dx > (sw / 2)) {
+                var ppid = pid === 0 ? max : pid - 1;
+                var ppv = instance.selectComponent('#dz_sm_' + ppid);
+                ppv.setStyle({transform: 'translate3d(75px,0px,-100px) rotateY(50deg)'});
+            }
+        }
+    }
+}
+
+var onChanged = function (e, instance) {
+    instance.getState().idx = e.detail.current;
+}
+
+module.exports = {
+    transition: onTransition,
+    changed: onChanged
+}

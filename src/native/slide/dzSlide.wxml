@@ -1,0 +1,18 @@
+<wxs module="move" src="./move.wxs"/>
+<view wx:if="{{openLoad}}" class="mas-load-box">
+    <view class='mas-dot'/>
+    <view class='mas-dot'/>
+    <view class='mas-dot'/>
+</view>
+<swiper wx:if="{{max !== -1}}" class="dz-master-swiper" circular="{{max > 1}}" previous-margin="50px" next-margin="50px" bindanimationfinish='{{move.changed}}' bindtransition="{{move.transition}}"
+        data-one="{{screenWidth}}" data-max="{{max}}">
+    <swiper-item class="dz-swiper-ann" wx:for-items="{{dataList}}" wx:for-index="idx" wx:key="id">
+        <view id="dz_sm_{{idx}}" class="dz-swiper-item" style="transform:{{idx === 1 ? 'translate3d(-75px,0px,-100px) rotateY(-50deg);' : ((idx === max && max > 0) ? 'translate3d(75px,0px,-100px) rotateY(50deg);' : '')}}">
+            <view class="mas-avatar">
+                <view class="mas-head" style="background-image: url({{item.cmAvatar}})"/>
+            </view>
+            <view class="mas-desc">{{item.cmDesc}}</view>
+        </view>
+    </swiper-item>
+</swiper>
+<image class="slide-back" src="https://lingpaobasketball.com/file/wechat/slide_bg.png" mode="scaleToFill"/>
