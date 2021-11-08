@@ -87,7 +87,12 @@ export default class Register extends Component {
     }
 
     componentDidMount() {
-        this.loadMember({openLoad: false});
+        const memId = memGet('memId');
+        if (memId === 0) {
+          this.setState({openLoad: false});
+        } else {
+          this.loadMember({openLoad: false});
+        }
     }
 
     loadMember(init) {

@@ -12,31 +12,12 @@ import {cardType, memGet} from "../../store/menber";
 import wxPay from "../../util/wxPay";
 import CheckMember from "../../components/check/CheckMember";
 
-//{'1':'固定日期','2':'日卡','3':'7天周卡','4':'30天月卡','6':'365天年卡'}
-function getPeriod(card) {
-    switch (card.ticketType) {
-        case 1:
-            return '购买日至' + card.endTime;
-        case 2:
-            return '购买当日' + card.endTime;
-        case 3:
-            return '购买日起7天后';
-        case 4:
-            return '购买日起30天后';
-        case 6:
-            return '购买日起365天后';
-        default:
-            return '无效周期';
-    }
-}
-
 function Ticket(props) {
     const item = props.item;
-    const price = props.cardType === 2 ? item.goldPrice : (props.cardType === 1 ? item.sliverPrice : item.originPrice);
     return (
         <View className={props.cardIdx === props.index ? 'i-card active' : 'i-card'} onClick={() => props.cardClick(props.index)}>
             <View className="card-left">
-                <View className="price"><Text className='origin'>{item.originPrice}元</Text><Text>折扣价</Text><Text className='promotion'>{price}</Text><Text>元</Text></View>
+                <View className="price"><Text className='origin'>{item.originPrice}元</Text><Text>折扣价</Text><Text className='promotion'>{item.promoPrice}</Text><Text>元</Text></View>
                 <View className='desc'>{item.summary}</View>
             </View>
             <view className="card-right"><Text>{item.ticketName}</Text></view>
@@ -44,7 +25,6 @@ function Ticket(props) {
         </View>
     );
 }
-
 
 export default class Entrance extends Component {
     constructor(props) {
@@ -72,7 +52,7 @@ export default class Entrance extends Component {
     }
 
     componentDidMount() {
-        remoteGet(api.enTicket, (res) => {
+        remoteGet(api.enTicket + '?memId=' + memGet('memId'), (res) => {
             this.setState({openLoad: false, ticketList: res.data});
         }, () => this.setState({openLoad: false}));
     }
@@ -88,8 +68,7 @@ export default class Entrance extends Component {
         }
 
         const card = this.state.ticketList[this.state.cardIdx];
-        const price = this.state.cardType === 2 ? card.goldPrice : (this.state.cardType === 1 ? card.sliverPrice : card.originPrice);
-        this.setState({showModel: true, ticketName: card.ticketName, wpPrice: card.originPrice, price: price, period: getPeriod(card)});
+        this.setState({showModel: true, ticketName: card.ticketName, wpPrice: card.originPrice, price: card.promoPrice, period: card.periodDesc});
     }
 
     submit() {

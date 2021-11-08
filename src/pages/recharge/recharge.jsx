@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React, {Component} from 'react';
 import Taro from "@tarojs/taro";
 import {Button, Input, View} from '@tarojs/components';
@@ -45,9 +46,12 @@ export default class Recharge extends Component {
     }
 
     componentDidMount() {
-        remoteGet(api.rechargeList + '?memId=' + memGet('memId'), (res) => {
-            this.setState({openLoad: false, amtList: res.data});
+      const memId = memGet('memId');
+      if (memId > 0) {
+        remoteGet(api.rechargeList + '?memId=' + memId, (res) => {
+          this.setState({openLoad: false, amtList: res.data});
         });
+      }
     }
 
     amtChange(idx) {

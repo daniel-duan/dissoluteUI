@@ -16,7 +16,7 @@ function BookItem(props) {
     return (
         <View className='tab-item' onClick={() => Taro.navigateTo({url: '/pages/mine/bookDetail/bookDetail?id=' + item.bhkId})}>
             <View className='content'>
-                <View className='header'>{item.bookDate}</View>
+                <View className='header'>{item.bookDate}({item.siteName})</View>
                 <View className='line'><View className='head'>预定时间段</View><View className='body'>{item.bookPeriod}</View></View>
                 <View className='line'><View className='head'>已支付金额</View><View className='body'>{item.payAmount} 元</View></View>
             </View>

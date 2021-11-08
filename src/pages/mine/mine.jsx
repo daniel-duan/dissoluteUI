@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
 import Taro from "@tarojs/taro";
 import {Image, OpenData, Text, View} from '@tarojs/components'
+import {AtIcon} from "taro-ui";
 
 import './mine.scss'
-import {AtIcon} from "taro-ui";
 import {getMemType, memGet} from "../../store/menber";
 import CheckMember from "../../components/check/CheckMember";
 import api from "../../store/api";
@@ -31,7 +31,6 @@ export default class Mine extends Component {
         super(props);
 
         this.state = {
-            openLoad: true,
             showQr: false,
             memType: getMemType()
         };
