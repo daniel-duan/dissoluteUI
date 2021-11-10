@@ -68,7 +68,7 @@ export default class BookDetail extends Component {
         return {
             title: `${this.state.detail.realName}邀请您加入比赛（${this.state.detail.bookDate}）`,
             path: '/pages/screen/screen?forward=YES&type=JOIN&bhkId=' + this.bhkId,
-            imageUrl: 'https://lingpaobasketball.com/file/common/shanguo_share.jpg'
+            imageUrl: 'https://lanqiuguanli.com/file/common/shanguo_share.jpg'
         };
     }
 

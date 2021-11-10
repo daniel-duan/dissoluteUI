@@ -38,9 +38,9 @@ export default class CheckMember extends React.Component {
         eventCenter.off(this.eventId, this.onShow);
     }
 
-    getUserInfo() {
-        wx.getUserInfo({
-            desc: '陕果篮球中心需要完善您的会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+  getUserInfo() {
+      Taro.getUserProfile({
+            desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
             success: (res) => {
                 cacheUserInfo(res.userInfo);
                 Taro.navigateTo({url: '/pages/register/register'})

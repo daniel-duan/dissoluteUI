@@ -65,7 +65,7 @@ export default class Register extends Component {
             phoneNumber: '',
             faceImage: '',
             gender: '',
-            memType: '',
+            memType: 0,
             teamName: '',
             inviteCode: ''
         };
@@ -130,6 +130,10 @@ export default class Register extends Component {
             Taro.showToast({title: '请选择人脸识别头像', icon: 'none', duration: 2000});
             return;
         }
+      if (this.state.memType === 0) {
+        Taro.showToast({title: '请选择会员类型', icon: 'none', duration: 2000});
+        return;
+      }
 
         const mem = this.state;
         const avatarUrl = memGet('avatarUrl');
