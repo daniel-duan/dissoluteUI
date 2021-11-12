@@ -97,6 +97,14 @@ export default class Home extends Component {
         });
     }
 
+    onShareAppMessage() {
+        return {
+            title: `陕果篮球中心`,
+            path: '/pages/screen/screen',
+            imageUrl: 'https://lanqiuguanli.com/file/common/shanguo_share.jpg'
+        };
+    }
+
     swipeClick(paId) {
         if (paId !== null && paId > 0) {
             Taro.navigateTo({url: '/pages/web/webView?type=1&id=' + paId});

@@ -142,6 +142,14 @@ export default class Book extends Component {
         eventCenter.on(eventId, () => this.setState(Object.assign(this.originState, {openLoad: false})));
     }
 
+    onShareAppMessage() {
+        return {
+            title: `陕果篮球中心`,
+            path: '/pages/screen/screen',
+            imageUrl: 'https://lanqiuguanli.com/file/common/shanguo_share.jpg'
+        };
+    }
+
     mapClick(idx) {
         if (this.state.siteNumber !== idx) {
             this.setState({siteNumber: idx, booked: [], totalAmt: 0, totalHour: 0});
